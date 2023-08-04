@@ -350,6 +350,10 @@ void Graphics::DrawRect(RectI rect, Color c, float alpha) {
 	DrawRect(rect.GetPosition(), rect.GetWidth(), rect.GetHeight(), c, alpha);
 }
 
+RectI Graphics::GetScreenRect() {
+	return RectI(0, 0, ScreenWidth - 1, ScreenHeight - 1);
+}
+
 //////////////////////////////////////////////////
 //           Graphics Exception
 Graphics::Exception::Exception(HRESULT hr, const std::wstring& note, const wchar_t* file, unsigned int line)

@@ -65,6 +65,7 @@ public:
 	void DrawRect(int x, int y, int width, int height, Color c, float alpha);
 	void DrawRect(Vector2 position, int width, int height, Color c, float alpha);
 	void DrawRect(RectI rect, Color c, float alpha);
+	RectI GetScreenRect();
 	~Graphics();
 private:
 	Microsoft::WRL::ComPtr<IDXGISwapChain>				pSwapChain;
