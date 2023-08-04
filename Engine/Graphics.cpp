@@ -350,6 +350,21 @@ void Graphics::DrawRect(RectI rect, Color c, float alpha) {
 	DrawRect(rect.GetPosition(), rect.GetWidth(), rect.GetHeight(), c, alpha);
 }
 
+void Graphics::DrawCircle(Vector2 position, int radius, Color c) {
+	RectI boundingBox = RectI::GetRectFromCenter(position, radius, radius);
+	RectI screenRect = GetScreenRect();
+	for (int y = boundingBox.top; y < boundingBox.bottom; y++) {
+		for (int x = boundingBox.left; x < boundingBox.right; x++) {
+			Vector2 point(x, y);
+
+			bool isInsideCircle = position.GetDistanceSquared(point) <= (radius * radius);
+			if (isInsideCircle && screenRect.ContainsPoint(point)) {
+				PutPixel(point, c);
+			}
+		}
+	}
+}
+
 RectI Graphics::GetScreenRect() {
 	return RectI(0, 0, ScreenWidth - 1, ScreenHeight - 1);
 }
