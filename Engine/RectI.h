@@ -8,9 +8,11 @@ public:
 	Vector2 GetPosition();
 	int GetWidth();
 	int GetHeight();
-private:
-	int x0;
-	int y0;
-	int x1;
-	int y1;
+	bool ContainsPoint(Vector2 point);
+	static RectI GetRectFromCenter(Vector2 center, int halfWidth, int halfHeight);
+public:
+	int left;
+	int top;
+	int right;
+	int bottom;
 };
