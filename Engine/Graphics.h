@@ -59,6 +59,7 @@ public:
 	void PutPixel(Vector2 position, Color c);
 	void PutPixel(int x, int y, Color c, float alpha);
 	Color GetPixel(int x, int y);
+	void DrawLine(Vector2 start, Vector2 end, Color color);
 	void DrawRect(int x, int y, int width, int height, Color c);
 	void DrawRect(Vector2 position, int width, int height, Color c);
 	void DrawRect(RectI rect, Color c);

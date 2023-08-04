@@ -318,6 +318,48 @@ Color Graphics::GetPixel(int x, int y) {
 	return pSysBuffer[Graphics::ScreenWidth * y + x];
 }
 
+void Graphics::DrawLine(Vector2 start, Vector2 end, Color color) {
+	RectI screenRect = GetScreenRect();
+
+	int deltaX = end.x - start.x;
+	int deltaY = end.y - start.y;
+
+	if (deltaX == 0 || deltaY == 0) {
+		return;
+	}
+	bool isSlopeLow = abs(deltaX) > abs(deltaY);
+
+	if (isSlopeLow) {		
+		const float slope = float(deltaY) / deltaX;
+		if (deltaX < 0) {
+			std::swap(start, end);
+			deltaX *= -1;
+		}
+		for (int i = 0; i <= abs(deltaX); i++) {
+			const int currentX = start.x + i;
+			const int currentY = int(start.y + slope * i);
+			Vector2 point(currentX, currentY);
+			if (screenRect.ContainsPoint(point)) {
+				PutPixel(currentX, currentY, color);
+			}
+		}
+	} else {
+		const float slope = float(deltaX) / deltaY;
+		if (deltaY < 0) {
+			std::swap(start, end);
+			deltaY *= -1;
+		}
+		for (int i = 0; i <= abs(deltaY); i++) {
+			const int currentX = int(start.x + slope * i);
+			const int currentY = start.y + i;
+			Vector2 point(currentX, currentY);
+			if (screenRect.ContainsPoint(point)) {
+				PutPixel(currentX, currentY, color);
+			}
+		}
+	}
+}
+
 void Graphics::DrawRect(int x, int y, int width, int height, Color c) {
 	for (int py = 0; py < height; py++) {
 		for (int px = 0; px < width; px++) {
