@@ -299,6 +299,10 @@ void Graphics::PutPixel(int x, int y, int r, int g, int b) {
 	PutPixel(x, y, { unsigned char(r),unsigned char(g),unsigned char(b) });
 }
 
+void Graphics::PutPixel(Vector2 position, Color c) {
+	PutPixel(position.x, position.y, c);
+}
+
 void Graphics::PutPixel(int x, int y, Color c, float alpha) {
 	Color oldColor = GetPixel(x, y);
 

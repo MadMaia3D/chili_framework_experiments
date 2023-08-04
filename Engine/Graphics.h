@@ -56,6 +56,7 @@ public:
 	void BeginFrame();
 	void PutPixel( int x,int y,Color c );
 	void PutPixel(int x, int y, int r, int g, int b);
+	void PutPixel(Vector2 position, Color c);
 	void PutPixel(int x, int y, Color c, float alpha);
 	Color GetPixel(int x, int y);
 	void DrawRect(int x, int y, int width, int height, Color c);
