@@ -20,12 +20,14 @@
  ******************************************************************************************/
 #include "MainWindow.h"
 #include "Game.h"
+#include <random>
 
 Game::Game( MainWindow& wnd )
 	:
 	wnd( wnd ),
 	gfx( wnd )
 {
+	CreateGaussianDistribution();
 }
 
 void Game::Go()
@@ -38,6 +40,39 @@ void Game::Go()
 
 void Game::UpdateModel()
 {
+	constexpr int barWidth = 1;
+	constexpr int xPos = 10;
+	constexpr int yPos = 590;
+	for (int i = 0; i < maxValues; i++) {
+		for (int y = 0; y < values[i]; y++) {
+			for (int x = 0; x < barWidth; x++) {
+				gfx.PutPixel(xPos + i * barWidth + x, yPos - y, Colors::White);
+			}
+		}
+	}
+	if (wnd.kbd.KeyIsPressed(VK_SPACE)) {
+		CreateGaussianDistribution();
+	}
+}
+
+void Game::CreateGaussianDistribution() {
+	for (int& i : values) {
+		i = 0;
+	}
+	std::random_device rd;
+	std::mt19937 rng(rd());
+	std::uniform_int_distribution<int> distribution(0, maxValues - 1);
+	for (int i = 0; i < 10000; i++) {
+		int nRandomGenerators = 3;
+
+		int accumulatedRandom = 0;
+		for (int i = 0; i < nRandomGenerators; i++) {
+			accumulatedRandom += distribution(rng);
+		}
+		int randomIndex = accumulatedRandom/ nRandomGenerators;
+
+		values[randomIndex] += 5;
+	}
 }
 
 void Game::ComposeFrame()

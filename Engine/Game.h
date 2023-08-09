@@ -36,11 +36,14 @@ private:
 	void UpdateModel();
 	/********************************/
 	/*  User Functions              */
+	void CreateGaussianDistribution();
 	/********************************/
 private:
 	MainWindow& wnd;
 	Graphics gfx;
 	/********************************/
 	/*  User Variables              */
+	static constexpr int maxValues = 780;
+	int values[maxValues] = { 0 };
 	/********************************/
 };
