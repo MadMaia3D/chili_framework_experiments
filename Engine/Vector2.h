@@ -21,25 +21,29 @@ public:
 		return{ x + other.x, y + other.y };
 	}
 	Vector2& operator+=(const Vector2& other) {
-		return *this + other;
+		*this = *this + other;
+		return *this;
 	}
 	Vector2 operator-(const Vector2& other) {
 		return{ x - other.x, y - other.y };
 	}
 	Vector2& operator-=(const Vector2& other) {
-		return *this - other;
+		*this = *this - other;
+		return *this;
 	}
 	Vector2 operator*(T value) {
 		return{ x * value, y * value };
 	}
 	Vector2& operator*=(T value) {
-		return *this * value;
+		*this = *this * value;
+		return *this;
 	}
 	Vector2 operator/(T value) {
 		return{ x / value, y / value };
 	}
 	Vector2& operator/=(T value) {
-		return *this / value;
+		*this = *this / value;
+		return *this;
 	}
 
 	float GetDistanceSquared(Vector2 position) {
