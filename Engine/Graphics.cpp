@@ -299,7 +299,7 @@ void Graphics::PutPixel(int x, int y, int r, int g, int b) {
 	PutPixel(x, y, { unsigned char(r),unsigned char(g),unsigned char(b) });
 }
 
-void Graphics::PutPixel(Vector2 position, Color c) {
+void Graphics::PutPixel(Vector2<int> position, Color c) {
 	PutPixel(position.x, position.y, c);
 }
 
@@ -318,13 +318,13 @@ Color Graphics::GetPixel(int x, int y) {
 	return pSysBuffer[Graphics::ScreenWidth * y + x];
 }
 
-void Graphics::DrawLine(Vector2 start, Vector2 end, Color color) {
+void Graphics::DrawLine(Vector2<int> start, Vector2<int> end, Color color) {
 	RectI screenRect = GetScreenRect();
 
 	int deltaX = end.x - start.x;
 	int deltaY = end.y - start.y;
 
-	if (deltaX == 0 || deltaY == 0) {
+	if (deltaX == 0 && deltaY == 0) {
 		return;
 	}
 	bool isSlopeLow = abs(deltaX) > abs(deltaY);
@@ -338,7 +338,7 @@ void Graphics::DrawLine(Vector2 start, Vector2 end, Color color) {
 		for (int i = 0; i <= abs(deltaX); i++) {
 			const int currentX = start.x + i;
 			const int currentY = int(start.y + slope * i);
-			Vector2 point(currentX, currentY);
+			Vector2<int> point(currentX, currentY);
 			if (screenRect.ContainsPoint(point)) {
 				PutPixel(currentX, currentY, color);
 			}
@@ -352,7 +352,7 @@ void Graphics::DrawLine(Vector2 start, Vector2 end, Color color) {
 		for (int i = 0; i <= abs(deltaY); i++) {
 			const int currentX = int(start.x + slope * i);
 			const int currentY = start.y + i;
-			Vector2 point(currentX, currentY);
+			Vector2<int> point(currentX, currentY);
 			if (screenRect.ContainsPoint(point)) {
 				PutPixel(currentX, currentY, color);
 			}
@@ -368,7 +368,7 @@ void Graphics::DrawRect(int x, int y, int width, int height, Color c) {
 	}
 }
 
-void Graphics::DrawRect(Vector2 position, int width, int height, Color c) {
+void Graphics::DrawRect(Vector2<int> position, int width, int height, Color c) {
 	DrawRect(position.x, position.y, width, height, c);
 }
 
@@ -384,7 +384,7 @@ void Graphics::DrawRect(int x, int y, int width, int height, Color c, float alph
 	}
 }
 
-void Graphics::DrawRect(Vector2 position, int width, int height, Color c, float alpha) {
+void Graphics::DrawRect(Vector2<int> position, int width, int height, Color c, float alpha) {
 	DrawRect(position.x, position.y, width, height, c, alpha);
 }
 
@@ -392,12 +392,12 @@ void Graphics::DrawRect(RectI rect, Color c, float alpha) {
 	DrawRect(rect.GetPosition(), rect.GetWidth(), rect.GetHeight(), c, alpha);
 }
 
-void Graphics::DrawCircle(Vector2 position, int radius, Color c) {
+void Graphics::DrawCircle(Vector2<int> position, int radius, Color c) {
 	RectI boundingBox = RectI::GetRectFromCenter(position, radius, radius);
 	RectI screenRect = GetScreenRect();
 	for (int y = boundingBox.top; y < boundingBox.bottom; y++) {
 		for (int x = boundingBox.left; x < boundingBox.right; x++) {
-			Vector2 point(x, y);
+			 const Vector2<int> point(x, y);
 
 			bool isInsideCircle = position.GetDistanceSquared(point) <= (radius * radius);
 			if (isInsideCircle && screenRect.ContainsPoint(point)) {

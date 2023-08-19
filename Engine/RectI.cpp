@@ -7,12 +7,12 @@ RectI::RectI(int x, int y, int width, int height) {
 	bottom = y + height;
 }
 
-RectI::RectI(Vector2 position, int width, int height) {
+RectI::RectI(Vector2<int> position, int width, int height) {
 	RectI(position.x, position.y, width, height);
 }
 
-Vector2 RectI::GetPosition() {
-	return Vector2(left, top);
+Vector2<int> RectI::GetPosition() {
+	return{ left, top };
 }
 
 int RectI::GetWidth() {
@@ -23,10 +23,10 @@ int RectI::GetHeight() {
 	return bottom - top;
 }
 
-bool RectI::ContainsPoint(Vector2 point) {
+bool RectI::ContainsPoint(Vector2<int> point) {
 	return left <= point.x && point.x <= right && top <= point.y && point.y <= bottom;
 }
 
-RectI RectI::GetRectFromCenter(Vector2 center, int halfWidth, int halfHeight) {
+RectI RectI::GetRectFromCenter(Vector2<int> center, int halfWidth, int halfHeight) {
 	return RectI(center.x - halfWidth , center.y - halfHeight, halfWidth * 2, halfHeight * 2);
 }

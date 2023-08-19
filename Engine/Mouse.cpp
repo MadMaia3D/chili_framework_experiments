@@ -21,7 +21,7 @@
 #include "Mouse.h"
 
 
-Vector2 Mouse::GetPos() const
+Vector2<int> Mouse::GetPos() const
 {
 	return { x,y };
 }
