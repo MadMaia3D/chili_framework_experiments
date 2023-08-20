@@ -53,11 +53,23 @@ public:
 	}
 
 	float GetLengthSquared() {
-		return x * x + y * y;
+		return float(x * x + y * y);
 	}
 
 	float GetLength() {
-		std::sqrt(GetLengthSquared());
+		return std::sqrt(GetLengthSquared());
+	}
+
+	Vector2 GetNormalized() {
+		const float length = GetLength();
+		if (length != (T)0) {
+			return *this / (T)length;
+		}
+		return *this;
+	}
+
+	Vector2& Normalize() {
+		return *this = GetNormalized();
 	}
 
 	Vector2 Rotated(float angle) {
