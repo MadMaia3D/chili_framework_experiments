@@ -16,7 +16,11 @@ public:
 		x(T(source.x)),
 		y(T(source.y))
 	{}
-
+	Vector2(const Vector2<int>& source)
+		:
+		x(T(source.x)),
+		y(T(source.y)) {
+	}
 	Vector2 operator+(const Vector2& other) {
 		return{ x + other.x, y + other.y };
 	}
@@ -24,8 +28,11 @@ public:
 		*this = *this + other;
 		return *this;
 	}
-	Vector2 operator-(const Vector2& other) {
+	Vector2 operator-(const Vector2& other) const {
 		return{ x - other.x, y - other.y };
+	}
+	Vector2 operator-(const Vector2& other) {
+		return{ *this - other };
 	}
 	Vector2& operator-=(const Vector2& other) {
 		*this = *this - other;
