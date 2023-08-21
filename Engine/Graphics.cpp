@@ -306,10 +306,9 @@ void Graphics::PutPixel(Vector2<int> position, Color c) {
 void Graphics::PutPixel(int x, int y, Color c, float alpha) {
 	Color oldColor = GetPixel(x, y);
 
-	using namespace MathUtilities;
-	int newR = LerpInt(oldColor.GetR(), c.GetR(), alpha);
-	int newG = LerpInt(oldColor.GetG(), c.GetG(), alpha);
-	int newB = LerpInt(oldColor.GetB(), c.GetB(), alpha);
+	int newR = MathUtilities::LerpInt(oldColor.GetR(), c.GetR(), alpha);
+	int newG = MathUtilities::LerpInt(oldColor.GetG(), c.GetG(), alpha);
+	int newB = MathUtilities::LerpInt(oldColor.GetB(), c.GetB(), alpha);
 
 	PutPixel(x, y, newR, newG, newB);
 }
