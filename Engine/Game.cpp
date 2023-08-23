@@ -20,12 +20,36 @@
  ******************************************************************************************/
 #include "MainWindow.h"
 #include "Game.h"
+#include <random>
 
 Game::Game( MainWindow& wnd )
 	:
 	wnd( wnd ),
 	gfx( wnd )
 {
+	std::random_device rd;
+	std::mt19937 rng(rd());
+	std::uniform_real_distribution<float> xDist(0.0f, 800.0f);
+	std::uniform_real_distribution<float> yDist(0.0f, 600.0f);
+	
+	std::vector<Vector2<float>> arrowModel = { { -15.0f,0.0f },{ 10.0f ,0.0f },{ 10.0f, 5.0f }, {20.0f, 0.0f},{ 10.0f, -5.0f },{ 10.0f ,0.0f } };
+	std::vector<Vector2<float>> simpleArrowModel = { { -5.0f, 0.0f },{ -10.0f, 6.0f },{ 10.0f, 0.0f },{ -10.0f, -6.0f } };
+	std::vector<Vector2<float>> lineModel = { { -5.0f, 0.0f },{ 5.0f, 0.0f } };
+
+	for (int i = 0; i < 1000; i++) {
+		Vector2<float> position(xDist(rng), yDist(rng));
+
+		PolyLineEntity entity(position, simpleArrowModel);
+
+		unsigned char r = int(entity.GetPosition().x / 800 * 255);
+		unsigned char g = int(entity.GetPosition().y / 600 * 255);
+		unsigned char b = 255;
+
+		entity.SetColor({r,g,b});
+		entity.SetScale({1.0f,0.5f});
+
+		entities.emplace_back(entity);
+	}
 }
 
 void Game::Go()
@@ -38,8 +62,16 @@ void Game::Go()
 
 void Game::UpdateModel()
 {
+	const float deltaTime = frameTimer.Mark();
+	const auto mousePos = wnd.mouse.GetPos();
+	for (auto &entity : entities) {
+		entity.LookAt(mousePos);
+	}
 }
 
 void Game::ComposeFrame()
 {
+	for (auto &entity : entities) {
+		entity.Draw(gfx);
+	}
 }
