@@ -44,24 +44,16 @@ private:
 	void DrawCellAtPosition(Vector2<int> cellPosition, Graphics& gfx) const {
 		const int xPos = cellPosition.x * cellWidth + firePosition.x;
 		const int yPos = cellPosition.y * cellHeight + firePosition.y;
-		const int fireIntensity = GetIntensityAtPosition(cellPosition);
+		const int fireIntensity = fireCells[cellPosition.y * FIRE_WIDTH + cellPosition.x];
 		const Color c = fireColors[fireIntensity];
 		gfx.DrawRect(xPos, yPos, cellWidth, cellHeight, c);
-	}
-
-	int GetIntensityAtPosition(Vector2<int> position) const {
-		return fireCells[position.y * FIRE_WIDTH + position.x];
-	}
-
-	void SetIntensityAtPosition(Vector2<int> position, int intensity) {
-		fireCells[position.y * FIRE_WIDTH + position.x] = intensity;
 	}
 
 	void SetupInitialFire() {
 		for (int x = 0; x < FIRE_WIDTH; x++) {
 			constexpr int y = FIRE_HEIGHT - 1;
 			const int intensity = (int)fireColors.size() - 1;
-			SetIntensityAtPosition({ x, y }, intensity);
+			fireCells[y * FIRE_WIDTH + x] = intensity;
 		}
 	}
 
