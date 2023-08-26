@@ -16,7 +16,7 @@ public:
 		windDist(0, 1) {
 		constexpr int nInterpolationColors = 8;
 		PreparePalette(nInterpolationColors);
-		SetupInitialFire();
+		StartFire();
 	}
 
 	void Update() {
@@ -34,6 +34,28 @@ public:
 			}
 		}
 	}
+
+	void StartFire() {
+		for (int x = 0; x < FIRE_WIDTH; x++) {
+			constexpr int y = FIRE_HEIGHT - 1;
+			const int intensity = (int)fireColors.size() - 1;
+			fireCells[y * FIRE_WIDTH + x] = intensity;
+		}
+		isEmitting = true;
+	}
+
+	void ExtinguishFire() {
+		for (int x = 0; x < FIRE_WIDTH; x++) {
+			constexpr int y = FIRE_HEIGHT - 1;
+			const int intensity = 0;
+			fireCells[y * FIRE_WIDTH + x] = intensity;
+		}
+		isEmitting = false;
+	}
+
+	bool IsEmitting() {
+		return isEmitting;
+	}
 private:
 	void SpreadFire(int from) {
 		const int rand = decayDist(rng);
@@ -48,14 +70,6 @@ private:
 		const int fireIntensity = fireCells[cellPosition.y * FIRE_WIDTH + cellPosition.x];
 		const Color c = fireColors[fireIntensity];
 		gfx.DrawRect(xPos, yPos, cellWidth, cellHeight, c);
-	}
-
-	void SetupInitialFire() {
-		for (int x = 0; x < FIRE_WIDTH; x++) {
-			constexpr int y = FIRE_HEIGHT - 1;
-			const int intensity = (int)fireColors.size() - 1;
-			fireCells[y * FIRE_WIDTH + x] = intensity;
-		}
 	}
 
 	void PreparePalette(int nInterpolationColors) {
@@ -93,4 +107,5 @@ private:
 	std::mt19937 rng;
 	std::uniform_int_distribution<int> decayDist;
 	std::uniform_int_distribution<int> windDist;
+	bool isEmitting = false;
 };

@@ -1,5 +1,5 @@
-/****************************************************************************************** 
- *	Chili DirectX Framework Version 16.07.20											  *	
+/******************************************************************************************
+ *	Chili DirectX Framework Version 16.07.20											  *
  *	Game.cpp																			  *
  *	Copyright 2016 PlanetChili.net <http://www.planetchili.net>							  *
  *																						  *
@@ -21,27 +21,36 @@
 #include "MainWindow.h"
 #include "Game.h"
 
-Game::Game( MainWindow& wnd )
+Game::Game(MainWindow& wnd)
 	:
-	wnd( wnd ),
-	gfx( wnd )
-{
+	wnd(wnd),
+	gfx(wnd) {
 }
 
-void Game::Go()
-{
-	gfx.BeginFrame();	
+void Game::Go() {
+	gfx.BeginFrame();
 	UpdateModel();
 	ComposeFrame();
 	gfx.EndFrame();
 }
 
-void Game::UpdateModel()
-{
+void Game::UpdateModel() {
+	while (!wnd.kbd.KeyIsEmpty()) {
+		const Keyboard::Event e = wnd.kbd.ReadKey();
+		if (e.IsPress()) {
+			if (e.GetCode() == VK_SPACE) {
+				if (doomFire.IsEmitting()) {
+					doomFire.ExtinguishFire();
+				}
+				else {
+					doomFire.StartFire();
+				}
+			}
+		}
+	}
 	doomFire.Update();
 }
 
-void Game::ComposeFrame()
-{
+void Game::ComposeFrame() {
 	doomFire.Draw(gfx);
 }
