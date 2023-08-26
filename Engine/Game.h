@@ -23,6 +23,10 @@
 #include "Keyboard.h"
 #include "Mouse.h"
 #include "Graphics.h"
+#include <vector>
+#include "Vector2.h"
+#include "FrameTimer.h"
+#include "Particle.h"
 
 class Game
 {
@@ -36,11 +40,14 @@ private:
 	void UpdateModel();
 	/********************************/
 	/*  User Functions              */
+	void SpawnFireworks();
 	/********************************/
 private:
 	MainWindow& wnd;
 	Graphics gfx;
 	/********************************/
 	/*  User Variables              */
+	FrameTimer frameTimer;
+	std::vector<Particle> particles;
 	/********************************/
 };
