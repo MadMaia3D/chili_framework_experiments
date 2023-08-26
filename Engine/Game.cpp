@@ -38,8 +38,10 @@ void Game::Go()
 
 void Game::UpdateModel()
 {
+	doomFire.Update();
 }
 
 void Game::ComposeFrame()
 {
+	doomFire.Draw(gfx);
 }

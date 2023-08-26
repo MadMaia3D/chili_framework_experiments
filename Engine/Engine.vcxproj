@@ -140,6 +140,7 @@
     <ClInclude Include="ChiliWin.h" />
     <ClInclude Include="Colors.h" />
     <ClInclude Include="COMInitializer.h" />
+    <ClInclude Include="DoomFire.h" />
     <ClInclude Include="DXErr.h" />
     <ClInclude Include="FrameTimer.h" />
     <ClInclude Include="Game.h" />
