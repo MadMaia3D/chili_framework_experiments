@@ -11,9 +11,10 @@ public:
 		:
 		cells(nColumns * nRows, 0),
 		rng(std::random_device{}()),
-		decayDist(0,1)
+		decayDist(0,1),
+		windDist(-1,0)
 	{
-		constexpr int nInterpolationColors = 6;
+		constexpr int nInterpolationColors = 7;
 		PreparePalette(nInterpolationColors);
 		SetupInitialFire();
 	}
@@ -21,9 +22,9 @@ public:
 	void Update() {
 		for (int y = 0; y < nRows - 1; y++) {
 			for (int x = 0; x < nColumns; x++) {
-				const int intensityBellow = GetIntensityAtPosition({ x,y + 1 });
 				const int randomDecay = decayDist(rng);
-				const int intensity = std::max(0, intensityBellow - randomDecay);
+
+				const int intensity = GetIntensityFromLineBellow({ x,y }, -1, randomDecay);
 				SetIntensityAtPosition({ x,y }, intensity);
 			}
 		}
@@ -37,6 +38,22 @@ public:
 		}
 	}
 private:
+	int GetIntensityFromLineBellow(const Vector2<int> currentPos, int wind, int decay) {
+		int sourceX = currentPos.x - wind;
+
+		if (sourceX < 0) {
+			sourceX += nColumns;
+		} else if (sourceX >= nColumns) {
+			sourceX -= nColumns;
+		}
+
+		const Vector2<int> sourcePosition(sourceX, currentPos.y + 1);
+		const int intensityBellow = GetIntensityAtPosition(sourcePosition);
+		const int intensity = std::max(0, intensityBellow - decay);
+		return intensity;
+	}
+
+
 	void DrawCellAtPosition(Vector2<int> cellPosition, Graphics& gfx) const {
 		const int xPos = cellPosition.x * cellWidth + firePosition.x;
 		const int yPos = cellPosition.y * cellHeight + firePosition.y;
@@ -62,16 +79,12 @@ private:
 	}
 
 	void PreparePalette(int nInterpolationColors) {
-		constexpr int nBaseColors = 5;
-		constexpr int nInterpolations = nBaseColors - 1;
-		const int totalColors = nBaseColors + nInterpolations * nInterpolationColors;
-		fireColors.reserve(totalColors);
-
 		InterpolateColors(Colors::Black, Colors::Red, nInterpolationColors);
 		InterpolateColors(Colors::Red, Colors::Orange, nInterpolationColors);
 		InterpolateColors(Colors::Orange, Colors::Yellow, nInterpolationColors);
 		InterpolateColors(Colors::Yellow, Colors::White, nInterpolationColors);
 		fireColors.emplace_back(Colors::White);
+		fireColors.shrink_to_fit();
 	}
 
 	void InterpolateColors(const Color& a, const Color& b, int nInterpolations) {
@@ -93,4 +106,5 @@ private:
 	std::vector<int> cells;
 	std::mt19937 rng;
 	std::uniform_int_distribution<int> decayDist;
+	std::uniform_int_distribution<int> windDist;
 };
