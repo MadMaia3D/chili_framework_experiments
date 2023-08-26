@@ -9,52 +9,37 @@ class DoomFire {
 public:
 	DoomFire()
 		:
-		cells(nColumns * nRows, 0),
+		fireCells(FIRE_WIDTH * FIRE_HEIGHT, 0),
 		rng(std::random_device{}()),
-		decayDist(0,1),
-		windDist(-1,1)
-	{
+		decayDist(0, 1),
+		windDist(0, 1) {
 		constexpr int nInterpolationColors = 8;
 		PreparePalette(nInterpolationColors);
 		SetupInitialFire();
 	}
 
 	void Update() {
-		for (int y = 0; y < nRows - 1; y++) {
-			for (int x = 0; x < nColumns; x++) {
-				const int randomDecay = decayDist(rng);
-				//const int randomWind = windDist(rng);
-
-				const int intensity = GetIntensityFromLineBellow({ x,y }, 1, randomDecay);
-				SetIntensityAtPosition({ x,y }, intensity);
+		for (int y = 1; y < FIRE_HEIGHT; y++) {
+			for (int x = 0; x < FIRE_WIDTH; x++) {
+				SpreadFire(y * FIRE_WIDTH + x);
 			}
 		}
 	}
 
 	void Draw(Graphics& gfx) const {
-		for (int y = 0; y < nRows; y++) {
-			for (int x = 0; x < nColumns; x++) {
+		for (int y = 0; y < FIRE_HEIGHT; y++) {
+			for (int x = 0; x < FIRE_WIDTH; x++) {
 				DrawCellAtPosition({ x,y }, gfx);
 			}
 		}
 	}
 private:
-	int GetIntensityFromLineBellow(const Vector2<int> currentPos, int wind, int decay) {
-		assert(decay >= 0);
-		int sourceX = currentPos.x - wind;
-
-		if (sourceX < 0) {
-			sourceX += nColumns;
-		} else if (sourceX >= nColumns) {
-			sourceX -= nColumns;
-		}
-
-		const Vector2<int> sourcePosition(sourceX, currentPos.y + 1);
-		const int intensityBellow = GetIntensityAtPosition(sourcePosition);
-		const int intensity = std::max(0, intensityBellow - decay);
-		return intensity;
+	void SpreadFire(int from) {
+		const int rand = decayDist(rng);
+		const int wind = windDist(rng);
+		const int to = std::max(0, from - FIRE_WIDTH + wind);
+		fireCells[to] = std::max(0, fireCells[from] - rand);
 	}
-
 
 	void DrawCellAtPosition(Vector2<int> cellPosition, Graphics& gfx) const {
 		const int xPos = cellPosition.x * cellWidth + firePosition.x;
@@ -65,16 +50,16 @@ private:
 	}
 
 	int GetIntensityAtPosition(Vector2<int> position) const {
-		return cells[position.y * nColumns + position.x];
+		return fireCells[position.y * FIRE_WIDTH + position.x];
 	}
 
 	void SetIntensityAtPosition(Vector2<int> position, int intensity) {
-		cells[position.y * nColumns + position.x] = intensity;
+		fireCells[position.y * FIRE_WIDTH + position.x] = intensity;
 	}
 
 	void SetupInitialFire() {
-		for (int x = 0; x < nColumns; x++) {
-			constexpr int y = nRows - 1;
+		for (int x = 0; x < FIRE_WIDTH; x++) {
+			constexpr int y = FIRE_HEIGHT - 1;
 			const int intensity = (int)fireColors.size() - 1;
 			SetIntensityAtPosition({ x, y }, intensity);
 		}
@@ -104,13 +89,13 @@ private:
 	}
 
 private:
-	Vector2<int> firePosition{ 50,100 };
-	static constexpr int nColumns = 200;
-	static constexpr int nRows = 120;
-	static constexpr int cellWidth = 3;
-	static constexpr int cellHeight = 3;
+	Vector2<int> firePosition{ 100,200 };
+	static constexpr int FIRE_WIDTH = 300;
+	static constexpr int FIRE_HEIGHT = 120;
+	static constexpr int cellWidth = 2;
+	static constexpr int cellHeight = 2;
 	std::vector<Color> fireColors;
-	std::vector<int> cells;
+	std::vector<int> fireCells;
 	std::mt19937 rng;
 	std::uniform_int_distribution<int> decayDist;
 	std::uniform_int_distribution<int> windDist;
