@@ -5,6 +5,7 @@
 #include "MathUtilities.h"
 #include <random>
 #include <assert.h>
+
 class DoomFire {
 public:
 	DoomFire()
@@ -58,11 +59,12 @@ private:
 	}
 
 	void PreparePalette(int nInterpolationColors) {
+		const Color black(4, 4, 4);
 		const Color darkRed(113, 18, 0);
 		const Color brightOrange(232, 66, 0);
 		const Color yellowOrange(217, 130, 0);
 		const Color yellow(196, 169, 0);
-		InterpolateColors(Colors::Black, darkRed, nInterpolationColors);
+		InterpolateColors(black, darkRed, nInterpolationColors);
 		InterpolateColors(darkRed, brightOrange, nInterpolationColors);
 		InterpolateColors(brightOrange, yellowOrange, nInterpolationColors);
 		InterpolateColors(yellowOrange, yellow, nInterpolationColors);
