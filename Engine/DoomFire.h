@@ -4,7 +4,7 @@
 #include <vector>
 #include "MathUtilities.h"
 #include <random>
-
+#include <assert.h>
 class DoomFire {
 public:
 	DoomFire()
@@ -12,9 +12,9 @@ public:
 		cells(nColumns * nRows, 0),
 		rng(std::random_device{}()),
 		decayDist(0,1),
-		windDist(-1,0)
+		windDist(-1,1)
 	{
-		constexpr int nInterpolationColors = 7;
+		constexpr int nInterpolationColors = 8;
 		PreparePalette(nInterpolationColors);
 		SetupInitialFire();
 	}
@@ -23,8 +23,9 @@ public:
 		for (int y = 0; y < nRows - 1; y++) {
 			for (int x = 0; x < nColumns; x++) {
 				const int randomDecay = decayDist(rng);
+				//const int randomWind = windDist(rng);
 
-				const int intensity = GetIntensityFromLineBellow({ x,y }, -1, randomDecay);
+				const int intensity = GetIntensityFromLineBellow({ x,y }, 1, randomDecay);
 				SetIntensityAtPosition({ x,y }, intensity);
 			}
 		}
@@ -39,6 +40,7 @@ public:
 	}
 private:
 	int GetIntensityFromLineBellow(const Vector2<int> currentPos, int wind, int decay) {
+		assert(decay >= 0);
 		int sourceX = currentPos.x - wind;
 
 		if (sourceX < 0) {
@@ -79,10 +81,15 @@ private:
 	}
 
 	void PreparePalette(int nInterpolationColors) {
-		InterpolateColors(Colors::Black, Colors::Red, nInterpolationColors);
-		InterpolateColors(Colors::Red, Colors::Orange, nInterpolationColors);
-		InterpolateColors(Colors::Orange, Colors::Yellow, nInterpolationColors);
-		InterpolateColors(Colors::Yellow, Colors::White, nInterpolationColors);
+		const Color darkRed(113, 18, 0);
+		const Color brightOrange(232, 66, 0);
+		const Color yellowOrange(217, 130, 0);
+		const Color yellow(196, 169, 0);
+		InterpolateColors(Colors::Black, darkRed, nInterpolationColors);
+		InterpolateColors(darkRed, brightOrange, nInterpolationColors);
+		InterpolateColors(brightOrange, yellowOrange, nInterpolationColors);
+		InterpolateColors(yellowOrange, yellow, nInterpolationColors);
+		InterpolateColors(yellow, Colors::White, nInterpolationColors);
 		fireColors.emplace_back(Colors::White);
 		fireColors.shrink_to_fit();
 	}
@@ -97,11 +104,11 @@ private:
 	}
 
 private:
-	Vector2<int> firePosition{ 100,100 };
-	static constexpr int nColumns = 120;
-	static constexpr int nRows = 80;
-	static constexpr int cellWidth = 5;
-	static constexpr int cellHeight = 5;
+	Vector2<int> firePosition{ 50,100 };
+	static constexpr int nColumns = 200;
+	static constexpr int nRows = 120;
+	static constexpr int cellWidth = 3;
+	static constexpr int cellHeight = 3;
 	std::vector<Color> fireColors;
 	std::vector<int> cells;
 	std::mt19937 rng;
