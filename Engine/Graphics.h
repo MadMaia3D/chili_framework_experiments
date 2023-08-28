@@ -26,6 +26,7 @@
 #include "Colors.h"
 #include "Vector2.h"
 #include "RectI.h"
+#include "Surface.h"
 
 class Graphics
 {
@@ -67,6 +68,7 @@ public:
 	void DrawRect(Vector2<int> position, int width, int height, Color c, float alpha);
 	void DrawRect(RectI rect, Color c, float alpha);
 	void DrawCircle(Vector2<int> position, int radius, Color c);
+	void DrawSprite(int x, int y, const Surface& surf);
 	RectI GetScreenRect();
 	~Graphics();
 private:
