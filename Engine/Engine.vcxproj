@@ -154,6 +154,7 @@
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Sound.h" />
     <ClInclude Include="SoundEffect.h" />
+    <ClInclude Include="Surface.h" />
     <ClInclude Include="Vector2.h" />
   </ItemGroup>
   <ItemGroup>
@@ -168,6 +169,7 @@
     <ClCompile Include="PolyLineEntity.cpp" />
     <ClCompile Include="RectI.cpp" />
     <ClCompile Include="Sound.cpp" />
+    <ClCompile Include="Surface.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="FramebufferPS.hlsl">
