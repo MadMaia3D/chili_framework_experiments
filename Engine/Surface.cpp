@@ -1,5 +1,7 @@
-#include "Surface.h"
+#include "ChiliWin.h"
 #include <cassert>
+#include "Surface.h"
+#include <fstream>
 
 Surface::Surface(unsigned int width, unsigned int height)
 	:
@@ -17,6 +19,39 @@ Surface::Surface(const Surface& source)
 	const int totalPixelsCount = width * height;
 	for (int i = 0; i < totalPixelsCount; i++) {
 		pixels[i] = source.pixels[i];
+	}
+}
+
+Surface::Surface (std::string file) {
+	std::ifstream input(file, std::ios::binary);
+
+
+	BITMAPFILEHEADER bitmapFileHeader;
+	input.read(reinterpret_cast<char*>(&bitmapFileHeader), sizeof(bitmapFileHeader));
+
+	BITMAPINFOHEADER bitmapInfoHeader;
+	input.read(reinterpret_cast<char*>(&bitmapInfoHeader), sizeof(bitmapInfoHeader));
+
+	assert(bitmapFileHeader.bfType = 'BM');
+	assert(bitmapInfoHeader.biBitCount == 24);
+	assert(bitmapInfoHeader.biCompression == BI_RGB);
+
+	width = bitmapInfoHeader.biWidth;
+	height = bitmapInfoHeader.biHeight;
+
+	pixels = new Color[width * height];
+
+	input.seekg(bitmapFileHeader.bfOffBits);
+	const int padding = (4 - ((width * 3) % 4)) % 4;
+	
+	for (int y = height - 1; y > 0; y--) {
+		for (int x = 0; x < int(width); x++) {
+			unsigned char b = input.get();
+			unsigned char g = input.get();
+			unsigned char r = input.get();
+			SetPixel(x, y, Color(r,g,b));
+		}
+		input.seekg(padding, std::ios_base::cur);
 	}
 }
 

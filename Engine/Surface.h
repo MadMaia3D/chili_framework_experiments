@@ -1,9 +1,11 @@
 #pragma once
+#include <string>
 #include "Colors.h"
 
 class Surface {
 public:
-	Surface(unsigned int width, unsigned  int height);
+	Surface(unsigned int width, unsigned int height);
+	Surface(std::string file);
 	Surface(const Surface& source);
 	Surface& operator=(const Surface& source);
 	~Surface();
