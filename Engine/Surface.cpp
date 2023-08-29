@@ -3,28 +3,19 @@
 #include "Surface.h"
 #include <fstream>
 
-Surface::Surface(unsigned int width, unsigned int height)
+Surface::Surface(int width, int height)
 	:
 	width(width),
 	height(height)
 {
+	assert(width > 0);
+	assert(height > 0);
 	const int totalPixelsCount = width * height;
 	pPixels = new Color[totalPixelsCount];
 }
 
-Surface::Surface(const Surface& source)
-	:
-	Surface(source.width, source.height)
-{
-	const int totalPixelsCount = width * height;
-	for (int i = 0; i < totalPixelsCount; i++) {
-		pPixels[i] = source.pPixels[i];
-	}
-}
-
-Surface::Surface (std::string file) {
+Surface::Surface(std::string file) {
 	std::ifstream input(file, std::ios::binary);
-
 
 	BITMAPFILEHEADER bitmapFileHeader;
 	input.read(reinterpret_cast<char*>(&bitmapFileHeader), sizeof(bitmapFileHeader));
@@ -39,19 +30,47 @@ Surface::Surface (std::string file) {
 	width = bitmapInfoHeader.biWidth;
 	height = bitmapInfoHeader.biHeight;
 
-	pPixels = new Color[width * height];
-
 	input.seekg(bitmapFileHeader.bfOffBits);
 	const int padding = (4 - ((width * 3) % 4)) % 4;
-	
-	for (int y = height - 1; y > 0; y--) {
-		for (int x = 0; x < int(width); x++) {
-			unsigned char b = input.get();
-			unsigned char g = input.get();
-			unsigned char r = input.get();
-			SetPixel(x, y, Color(r,g,b));
+
+	bool isInverted = false;
+	if (height < 0) {
+		height = -height;
+		isInverted = true;
+	}
+
+	pPixels = new Color[width * height];
+
+	if (!isInverted) {
+		for (int y = height - 1; y >= 0; y--) {
+			for (int x = 0; x < int(width); x++) {
+				unsigned char b = input.get();
+				unsigned char g = input.get();
+				unsigned char r = input.get();
+				SetPixel(x, y, Color(r, g, b));
+			}
+			input.seekg(padding, std::ios_base::cur);
 		}
-		input.seekg(padding, std::ios_base::cur);
+	} else {
+		for (int y = 0; y < height; y++) {
+			for (int x = 0; x < int(width); x++) {
+				unsigned char b = input.get();
+				unsigned char g = input.get();
+				unsigned char r = input.get();
+				SetPixel(x, y, Color(r, g, b));
+			}
+			input.seekg(padding, std::ios_base::cur);
+		}
+	}
+}
+
+Surface::Surface(const Surface& source)
+	:
+	Surface(source.width, source.height)
+{
+	const int totalPixelsCount = width * height;
+	for (int i = 0; i < totalPixelsCount; i++) {
+		pPixels[i] = source.pPixels[i];
 	}
 }
 
@@ -79,13 +98,13 @@ Surface::~Surface() {
 	pPixels = nullptr;
 }
 
-void Surface::SetPixel(unsigned int x, unsigned int y, Color c) {
+void Surface::SetPixel(int x, int y, Color c) {
 	assert(0 <= x && x < width);
 	assert(0 <= y && y < height);
 	pPixels[y * width + x] = c;
 }
 
-Color Surface::GetPixel(unsigned int x, unsigned int y) const {
+Color Surface::GetPixel(int x, int y) const {
 	assert(0 <= x && x < width);
 	assert(0 <= y && y < height);
 	return pPixels[y * width + x];
