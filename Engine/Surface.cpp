@@ -24,7 +24,7 @@ Surface::Surface(std::string file) {
 	input.read(reinterpret_cast<char*>(&bitmapInfoHeader), sizeof(bitmapInfoHeader));
 
 	assert(bitmapFileHeader.bfType = 'BM');
-	assert(bitmapInfoHeader.biBitCount == 24);
+	assert(bitmapInfoHeader.biBitCount == 24 || bitmapInfoHeader.biBitCount == 32);
 	assert(bitmapInfoHeader.biCompression == BI_RGB);
 
 	width = bitmapInfoHeader.biWidth;
@@ -47,6 +47,9 @@ Surface::Surface(std::string file) {
 				unsigned char b = input.get();
 				unsigned char g = input.get();
 				unsigned char r = input.get();
+				if (bitmapInfoHeader.biBitCount == 32) {
+					unsigned char a = input.get();
+				}
 				SetPixel(x, y, Color(r, g, b));
 			}
 			input.seekg(padding, std::ios_base::cur);
@@ -57,6 +60,9 @@ Surface::Surface(std::string file) {
 				unsigned char b = input.get();
 				unsigned char g = input.get();
 				unsigned char r = input.get();
+				if (bitmapInfoHeader.biBitCount == 32) {
+					unsigned char a = input.get();
+				}
 				SetPixel(x, y, Color(r, g, b));
 			}
 			input.seekg(padding, std::ios_base::cur);
