@@ -446,6 +446,49 @@ void Graphics::DrawSpriteNonChroma(int x, int y, RectI subregion, const RectI& c
 	}
 }
 
+void Graphics::DrawSprite(int x, int y, const Surface & surf, const Color& chroma) {
+	DrawSprite(x, y, surf.GetSurfaceRect(), GetScreenRect(), surf, chroma);
+}
+
+void Graphics::DrawSprite(int x, int y, const RectI& subregion, const Surface& surf, const Color& chroma) {
+	DrawSprite(x, y, subregion, GetScreenRect(), surf, chroma);
+}
+
+void Graphics::DrawSprite(int x, int y, RectI subregion, const RectI& clipRect, const Surface& surf, const Color& chroma) {
+	assert(0 <= subregion.left);
+	assert(subregion.right <= surf.GetWidth());
+	assert(0 <= subregion.top);
+	assert(subregion.bottom <= surf.GetHeight());
+
+	if (x < clipRect.left) {
+		const int leftClipSize = clipRect.left - x;
+		subregion.left += leftClipSize;
+		x += leftClipSize;
+	}
+	if ((x + subregion.GetWidth()) > clipRect.right) {
+		const int rightClipSize = (x + subregion.GetWidth()) - clipRect.right;
+		subregion.right -= rightClipSize;
+	}
+	if (y < clipRect.top) {
+		const int topClipSize = clipRect.top - y;
+		subregion.top += topClipSize;
+		y += topClipSize;
+	}
+	if ((y + subregion.GetHeight()) > clipRect.bottom) {
+		const int bottomClipSize = (y + subregion.GetHeight()) - clipRect.bottom;
+		subregion.bottom -= bottomClipSize;
+	}
+
+	for (int sy = subregion.top; sy < subregion.bottom; sy++) {
+		for (int sx = subregion.left; sx < subregion.right; sx++) {
+			const Color pixelColor = surf.GetPixel(sx, sy);
+			if (pixelColor != chroma) {
+				PutPixel(x + sx - subregion.left, y + sy - subregion.top, pixelColor);
+			}
+		}
+	}
+}
+
 RectI Graphics::GetScreenRect() {
 	return RectI(0, 0, ScreenWidth - 1, ScreenHeight - 1);
 }

@@ -71,6 +71,9 @@ public:
 	void DrawSpriteNonChroma(int x, int y, const Surface& surf);
 	void DrawSpriteNonChroma(int x, int y, const RectI& subregion, const Surface& surf);
 	void DrawSpriteNonChroma(int x, int y, RectI subregion, const RectI& clipRect, const Surface& surf);
+	void DrawSprite(int x, int y, const Surface& surf, const Color& chroma);
+	void DrawSprite(int x, int y, const RectI& subregion, const Surface& surf, const Color& chroma);
+	void DrawSprite(int x, int y, RectI subregion, const RectI& clipRect, const Surface& surf, const Color& chroma);
 	RectI GetScreenRect();
 	~Graphics();
 private:
