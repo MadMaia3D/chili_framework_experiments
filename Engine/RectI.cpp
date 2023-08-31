@@ -7,9 +7,10 @@ RectI::RectI(int x, int y, int width, int height) {
 	bottom = y + height;
 }
 
-RectI::RectI(Vector2<int> position, int width, int height) {
-	RectI(position.x, position.y, width, height);
-}
+RectI::RectI(Vector2<int> position, int width, int height)
+	:
+	RectI(position.x, position.y, width, height)
+{}
 
 Vector2<int> RectI::GetPosition() {
 	return{ left, top };
