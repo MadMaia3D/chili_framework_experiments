@@ -417,13 +417,13 @@ void Graphics::DrawSprite(int x, int y, const Surface & surf) {
 }
 
 void Graphics::DrawSprite(int x, int y, const RectI& subregion, const Surface& surf) {
-	assert(0 <= region.left);
-	assert(region.right <= surf.GetWidth());
-	assert(0 <= region.top);
-	assert(region.bottom <= surf.GetHeight());
-	for (int sy = region.top; sy < region.bottom; sy++) {
-		for (int sx = region.left; sx < region.right; sx++) {
-			PutPixel(x + sx - region.left, y + sy - region.top, surf.GetPixel(sx, sy));
+	assert(0 <= subregion.left);
+	assert(subregion.right <= surf.GetWidth());
+	assert(0 <= subregion.top);
+	assert(subregion.bottom <= surf.GetHeight());
+	for (int sy = subregion.top; sy < subregion.bottom; sy++) {
+		for (int sx = subregion.left; sx < subregion.right; sx++) {
+			PutPixel(x + sx - subregion.left, y + sy - subregion.top, surf.GetPixel(sx, sy));
 		}
 	}
 }
