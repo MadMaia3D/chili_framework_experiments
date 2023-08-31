@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include "Colors.h"
+#include "RectI.h"
 
 class Surface {
 public:
@@ -14,6 +15,7 @@ public:
 	void FillSurface(const Color& c);
 	int GetWidth() const;
 	int GetHeight() const;
+	RectI GetSurfaceRect() const;
 private:
 	int width;
 	int height;

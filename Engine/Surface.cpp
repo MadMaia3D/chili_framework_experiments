@@ -124,3 +124,7 @@ int Surface::GetWidth() const {
 int Surface::GetHeight() const {
 	return height;
 }
+
+RectI Surface::GetSurfaceRect() const {
+	return RectI(0,0, width, height);
+}
