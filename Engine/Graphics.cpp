@@ -416,6 +416,18 @@ void Graphics::DrawSprite(int x, int y, const Surface & surf) {
 	}
 }
 
+void Graphics::DrawSprite(int x, int y, const RectI& subregion, const Surface& surf) {
+	assert(0 <= region.left);
+	assert(region.right <= surf.GetWidth());
+	assert(0 <= region.top);
+	assert(region.bottom <= surf.GetHeight());
+	for (int sy = region.top; sy < region.bottom; sy++) {
+		for (int sx = region.left; sx < region.right; sx++) {
+			PutPixel(x + sx - region.left, y + sy - region.top, surf.GetPixel(sx, sy));
+		}
+	}
+}
+
 RectI Graphics::GetScreenRect() {
 	return RectI(0, 0, ScreenWidth - 1, ScreenHeight - 1);
 }
