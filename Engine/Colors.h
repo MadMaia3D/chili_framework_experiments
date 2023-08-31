@@ -51,6 +51,12 @@ public:
 		dword = color.dword;
 		return *this;
 	}
+	bool operator ==(const Color& color) const {
+		return dword == color.dword;
+	}
+	bool operator !=(const Color& color) const {
+		return !(*this == color);
+	}
 	constexpr unsigned char GetX() const
 	{
 		return dword >> 24u;
