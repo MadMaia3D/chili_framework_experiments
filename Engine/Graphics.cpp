@@ -407,25 +407,11 @@ void Graphics::DrawCircle(Vector2<int> position, int radius, Color c) {
 }
 
 void Graphics::DrawSprite(int x, int y, const Surface & surf) {
-	const int surfWidth = surf.GetWidth();
-	const int surfHeight = surf.GetHeight();
-	for (int sy = 0; sy < surfHeight; sy++) {
-		for (int sx = 0; sx < surfWidth; sx++) {
-			PutPixel(x + sx, y + sy, surf.GetPixel(sx,sy));
-		}
-	}
+	DrawSprite(x, y, surf.GetSurfaceRect(), GetScreenRect(), surf);
 }
 
 void Graphics::DrawSprite(int x, int y, const RectI& subregion, const Surface& surf) {
-	assert(0 <= subregion.left);
-	assert(subregion.right <= surf.GetWidth());
-	assert(0 <= subregion.top);
-	assert(subregion.bottom <= surf.GetHeight());
-	for (int sy = subregion.top; sy < subregion.bottom; sy++) {
-		for (int sx = subregion.left; sx < subregion.right; sx++) {
-			PutPixel(x + sx - subregion.left, y + sy - subregion.top, surf.GetPixel(sx, sy));
-		}
-	}
+	DrawSprite(x, y, subregion, GetScreenRect(), surf);
 }
 
 void Graphics::DrawSprite(int x, int y, RectI subregion, const RectI& clipRect, const Surface& surf) {
