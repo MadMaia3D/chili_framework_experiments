@@ -439,8 +439,8 @@ void Graphics::DrawSprite(int x, int y, RectI subregion, const RectI& clipRect, 
 		subregion.left += leftClipSize;
 		x += leftClipSize;
 	}
-	if ( (x + subregion.right) > clipRect.right) {
-		const int rightClipSize = (x + subregion.right) - clipRect.right;
+	if ( (x + subregion.GetWidth()) > clipRect.right) {
+		const int rightClipSize = (x + subregion.GetWidth()) - clipRect.right;
 		subregion.right -= rightClipSize;
 	}
 	if (y < clipRect.top) {
@@ -448,8 +448,8 @@ void Graphics::DrawSprite(int x, int y, RectI subregion, const RectI& clipRect, 
 		subregion.top += topClipSize;
 		y += topClipSize;
 	}
-	if ( (y + subregion.bottom) > clipRect.bottom) {
-		const int bottomClipSize = (y + subregion.bottom) - clipRect.bottom;
+	if ( (y + subregion.GetHeight()) > clipRect.bottom) {
+		const int bottomClipSize = (y + subregion.GetHeight()) - clipRect.bottom;
 		subregion.bottom -= bottomClipSize;
 	}
 
