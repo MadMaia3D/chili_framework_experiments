@@ -70,6 +70,7 @@ public:
 	void DrawCircle(Vector2<int> position, int radius, Color c);
 	void DrawSprite(int x, int y, const Surface& surf);
 	void DrawSprite(int x, int y, const RectI& subregion, const Surface& surf);
+	void DrawSprite(int x, int y, RectI subregion, const RectI& clipRect, const Surface& surf);
 	RectI GetScreenRect();
 	~Graphics();
 private:

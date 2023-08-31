@@ -428,6 +428,38 @@ void Graphics::DrawSprite(int x, int y, const RectI& subregion, const Surface& s
 	}
 }
 
+void Graphics::DrawSprite(int x, int y, RectI subregion, const RectI& clipRect, const Surface& surf) {
+	assert(0 <= subregion.left);
+	assert(subregion.right <= surf.GetWidth());
+	assert(0 <= subregion.top);
+	assert(subregion.bottom <= surf.GetHeight());
+
+	if (x < clipRect.left) {
+		const int leftClipSize = clipRect.left - x;
+		subregion.left += leftClipSize;
+		x += leftClipSize;
+	}
+	if ( (x + subregion.right) > clipRect.right) {
+		const int rightClipSize = (x + subregion.right) - clipRect.right;
+		subregion.right -= rightClipSize;
+	}
+	if (y < clipRect.top) {
+		const int topClipSize = clipRect.top - y;
+		subregion.top += topClipSize;
+		y += topClipSize;
+	}
+	if ( (y + subregion.bottom) > clipRect.bottom) {
+		const int bottomClipSize = (y + subregion.bottom) - clipRect.bottom;
+		subregion.bottom -= bottomClipSize;
+	}
+
+	for (int sy = subregion.top; sy < subregion.bottom; sy++) {
+		for (int sx = subregion.left; sx < subregion.right; sx++) {
+			PutPixel(x + sx - subregion.left, y + sy - subregion.top, surf.GetPixel(sx, sy));
+		}
+	}
+}
+
 RectI Graphics::GetScreenRect() {
 	return RectI(0, 0, ScreenWidth - 1, ScreenHeight - 1);
 }
