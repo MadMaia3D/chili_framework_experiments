@@ -6,8 +6,8 @@ public:
 	RectI(int x, int y, int width, int height);
 	RectI(Vector2<int> position, int width, int height);
 	Vector2<int> GetPosition();
-	int GetWidth();
-	int GetHeight();
+	int GetWidth() const;
+	int GetHeight() const;
 	bool ContainsPoint(Vector2<int> point);
 	static RectI GetRectFromCenter(Vector2<int> center, int halfWidth, int halfHeight);
 public:

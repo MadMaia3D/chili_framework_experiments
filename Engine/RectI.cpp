@@ -16,11 +16,11 @@ Vector2<int> RectI::GetPosition() {
 	return{ left, top };
 }
 
-int RectI::GetWidth() {
+int RectI::GetWidth() const {
 	return right - left;
 }
 
-int RectI::GetHeight() {
+int RectI::GetHeight() const {
 	return bottom - top;
 }
 
