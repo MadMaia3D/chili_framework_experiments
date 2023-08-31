@@ -406,15 +406,15 @@ void Graphics::DrawCircle(Vector2<int> position, int radius, Color c) {
 	}
 }
 
-void Graphics::DrawSprite(int x, int y, const Surface & surf) {
-	DrawSprite(x, y, surf.GetSurfaceRect(), GetScreenRect(), surf);
+void Graphics::DrawSpriteNonChroma(int x, int y, const Surface & surf) {
+	DrawSpriteNonChroma(x, y, surf.GetSurfaceRect(), GetScreenRect(), surf);
 }
 
-void Graphics::DrawSprite(int x, int y, const RectI& subregion, const Surface& surf) {
-	DrawSprite(x, y, subregion, GetScreenRect(), surf);
+void Graphics::DrawSpriteNonChroma(int x, int y, const RectI& subregion, const Surface& surf) {
+	DrawSpriteNonChroma(x, y, subregion, GetScreenRect(), surf);
 }
 
-void Graphics::DrawSprite(int x, int y, RectI subregion, const RectI& clipRect, const Surface& surf) {
+void Graphics::DrawSpriteNonChroma(int x, int y, RectI subregion, const RectI& clipRect, const Surface& surf) {
 	assert(0 <= subregion.left);
 	assert(subregion.right <= surf.GetWidth());
 	assert(0 <= subregion.top);
