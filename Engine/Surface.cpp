@@ -1,4 +1,5 @@
 #include "Surface.h"
+#include <cassert>
 
 Surface::Surface(int width, int height)
 	:
@@ -38,4 +39,24 @@ Surface& Surface::operator=(const Surface& source) {
 Surface::~Surface() {
 	delete[] pPixels;
 	pPixels = nullptr;
+}
+
+int Surface::GetWidth() const {
+	return width;
+}
+
+int Surface::GetHeight() const {
+	return height;
+}
+
+void Surface::SetPixel(int x, int y, const Color& color) {
+	assert(x >= 0 && x < width);
+	assert(y >= 0 && y < height);
+	pPixels[y * width + x] = color;
+}
+
+Color Surface::GetPixel(int x, int y) const {
+	assert(x >= 0 && x < width);
+	assert(y >= 0 && y < height);
+	return pPixels[y * width + x];
 }
