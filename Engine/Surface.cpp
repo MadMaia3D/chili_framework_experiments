@@ -14,7 +14,9 @@ Surface::Surface(std::string pathName) {
 	
 	assert(bitmapFileHeader.bfType == 'MB');
 	assert(bitmapInfoHeader.biCompression == BI_RGB);
-	assert(bitmapInfoHeader.biBitCount == 24);
+	assert(bitmapInfoHeader.biBitCount == 24 || bitmapInfoHeader.biBitCount == 32);
+
+	const bool is32Bit = bitmapInfoHeader.biBitCount == 32;
 
 	width = bitmapInfoHeader.biWidth;
 	height = bitmapInfoHeader.biHeight;
@@ -30,6 +32,9 @@ Surface::Surface(std::string pathName) {
 			const char g = inputFile.get();
 			const char r = inputFile.get();
 			pPixels[y * width + x] = Color(r, g, b);
+			if (is32Bit) {
+				inputFile.seekg(1, std::ios_base::cur);
+			}
 		}
 		inputFile.seekg(bmpPadding, std::ios_base::cur);
 	}
