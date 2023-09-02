@@ -17,16 +17,29 @@ Surface::Surface(std::string pathName) {
 	assert(bitmapInfoHeader.biBitCount == 24 || bitmapInfoHeader.biBitCount == 32);
 
 	const bool is32Bit = bitmapInfoHeader.biBitCount == 32;
+	const bool isReversed = bitmapInfoHeader.biHeight < 0;
 
 	width = bitmapInfoHeader.biWidth;
 	height = bitmapInfoHeader.biHeight;
-	pPixels = new Color[width * height];
-	
+
+	int startY = height - 1;
+	int endY = -1;
+	int deltaY = -1;	
+
+	if (isReversed) {
+		height = -height;
+		startY = 0;
+		endY = height;
+		deltaY = 1;
+	}
+	// bitmaps files have a row size that is multiple of 4
+	// the padding must be taken in consideration so we can load bitmaps which the width is not multiple of 4
+	const int bmpPadding = (4 - (width % 4)) % 4 * 3;
 	inputFile.seekg(bitmapFileHeader.bfOffBits, std::ios_base::beg);
 
-	const int bmpPadding = (4 - (width % 4)) % 4 * 3;
+	pPixels = new Color[width * height];
 
-	for (int y = height - 1 ; y >= 0; y--) {
+	for (int y = startY; y != endY; y += deltaY) {
 		for (int x = 0; x < width; x++) {
 			const char b = inputFile.get();
 			const char g = inputFile.get();
