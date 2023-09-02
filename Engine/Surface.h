@@ -1,5 +1,5 @@
 #pragma once
-#include "Graphics.h"
+#include "Colors.h"
 class Surface {
 public:
 	Surface(int width, int height);
