@@ -10,6 +10,12 @@ public:
 		x(x),
 		y(y)
 	{}
+
+	Vector2(const Vector2<float>& source)
+		:
+		x(T(source.x)),
+		y(T(source.y))
+	{}
 	// ===================== COMPARISSON OPERATORS ==========================
 	bool operator==(const Vector2<T>& other) {
 		return (x == other.x && y == other.y);
