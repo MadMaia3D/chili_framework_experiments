@@ -320,6 +320,22 @@ void Graphics::PutPixel(Vei2 position, Color c) {
 	PutPixel(position.x, position.y, c);
 }
 
+void Graphics::DrawRect(int x, int y, int width, int height, Color c) {
+	for (int dy = 0; dy < height; dy++) {
+		for (int dx = 0; dx < width; dx++) {
+			PutPixel(x + dx, y + dy, c);
+		}
+	}
+}
+
+void Graphics::DrawRect(const Vei2& position, int width, int height, Color c) {
+	DrawRect(position.x, position.y, width, height, c);
+}
+
+void Graphics::DrawRect(const RectI& rect, Color c) {
+	DrawRect(rect.left, rect.top, rect.GetWidth(), rect.GetHeight(), c);
+}
+
 void Graphics::DrawSprite(int x, int y, const Surface& surf) {
 	const int surfaceWidth = surf.GetWidth();
 	const int surfaceHeight = surf.GetHeight();

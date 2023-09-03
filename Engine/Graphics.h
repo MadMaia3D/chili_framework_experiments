@@ -24,6 +24,7 @@
 #include <wrl.h>
 #include "ChiliException.h"
 #include "Colors.h"
+#include "RectI.h"
 #include "Surface.h"
 
 class Graphics
@@ -59,6 +60,9 @@ public:
 	}
 	void PutPixel( int x,int y,Color c );
 	void PutPixel(Vei2 position, Color c);
+	void DrawRect(int x, int y, int width, int height, Color c);
+	void DrawRect(const Vei2& position, int width, int height, Color c);
+	void DrawRect(const RectI& rect, Color c);
 	void DrawSprite(int x, int y, const Surface& surf);
 	~Graphics();
 private:
