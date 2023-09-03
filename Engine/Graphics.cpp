@@ -340,15 +340,54 @@ void Graphics::DrawRect(const RectI& rect, Color c) {
 	DrawRect(rect.left, rect.top, rect.GetWidth(), rect.GetHeight(), c);
 }
 
-void Graphics::DrawSprite(int x, int y, const Surface& surf) {
-	DrawSprite(x, y, surf.GetRect(), surf);
+void Graphics::DrawSpriteNonChroma(int x, int y, const Surface& surf) {
+	DrawSpriteNonChroma(x, y, surf.GetRect(), surf);
+}
+void Graphics::DrawSpriteNonChroma(int x, int y, const RectI& subregion, const Surface& surf) {
+	DrawSpriteNonChroma(x, y, subregion, GetWindowRect(), surf);
+}
+void Graphics::DrawSpriteNonChroma(int x, int y, RectI subregion, const RectI & clipRect, const Surface & surf) {
+	// modify the position and subregion to clip to the clipRect
+	if (x < clipRect.left) {
+		const int clipAmount = clipRect.left - x;
+		subregion.left += clipAmount;
+		x = clipRect.left;
+	}
+
+	const int regionAbsoluteRight = x + subregion.GetWidth();
+	if (regionAbsoluteRight > clipRect.right) {
+		const int clipAmount = regionAbsoluteRight - clipRect.right;
+		subregion.right -= clipAmount;
+	}
+
+	if (y < clipRect.top) {
+		const int clipAmount = clipRect.top - y;
+		subregion.top += clipAmount;
+		y = clipRect.top;
+	}
+
+	const int regionAbsoluteBottom = y + subregion.GetHeight();
+	if (regionAbsoluteBottom > clipRect.bottom) {
+		const int clipAmount = regionAbsoluteBottom - clipRect.bottom;
+		subregion.bottom -= clipAmount;
+	}
+
+	// Draws the pixels
+	for (int sy = subregion.top; sy < subregion.bottom; sy++) {
+		for (int sx = subregion.left; sx < subregion.right; sx++) {
+			const Color pixelColor = surf.GetPixel(sx, sy);
+			PutPixel(x + sx - subregion.left, sy + y - subregion.top, pixelColor);
+		}
+	}
 }
 
-void Graphics::DrawSprite(int x, int y, const RectI& subregion, const Surface& surf) {
-	DrawSprite(x, y, subregion, GetWindowRect(), surf);
+void Graphics::DrawSprite(int x, int y, const Surface& surf, const Color& chroma) {
+	DrawSprite(x, y, surf.GetRect(), surf, chroma);
 }
-
-void Graphics::DrawSprite(int x, int y, RectI subregion, const RectI & clipRect, const Surface & surf) {
+void Graphics::DrawSprite(int x, int y, const RectI& subregion, const Surface& surf, const Color& chroma) {
+	DrawSprite(x, y, subregion, GetWindowRect(), surf, chroma);
+}
+void Graphics::DrawSprite(int x, int y, RectI subregion, const RectI & clipRect, const Surface & surf, const Color& chroma) {
 	// modify the position and subregion to clip to the clipRect
 	if ( x < clipRect.left) {
 		const int clipAmount = clipRect.left - x;
@@ -377,7 +416,9 @@ void Graphics::DrawSprite(int x, int y, RectI subregion, const RectI & clipRect,
 	for (int sy = subregion.top; sy < subregion.bottom; sy++) {
 		for (int sx = subregion.left; sx < subregion.right; sx++) {
 			const Color pixelColor = surf.GetPixel(sx, sy);
-			PutPixel(x + sx - subregion.left, sy + y - subregion.top, pixelColor);
+			if (pixelColor != chroma) {
+				PutPixel(x + sx - subregion.left, sy + y - subregion.top, pixelColor);
+			}
 		}
 	}
 }
