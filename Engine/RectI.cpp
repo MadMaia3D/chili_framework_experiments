@@ -25,8 +25,8 @@ RectI::RectI(Vei2 topLeft, Vei2 bottomBottom)
 }
 
 bool RectI::ContainsPoint(const Vei2& point) const {
-	const bool containsOnXaxis = right > point.x && left < point.x;
-	const bool containsOnYaxis = bottom > point.y && top < point.y;
+	const bool containsOnXaxis = right >= point.x && left <= point.x;
+	const bool containsOnYaxis = bottom >= point.y && top <= point.y;
 	return containsOnXaxis && containsOnYaxis;
 }
 
