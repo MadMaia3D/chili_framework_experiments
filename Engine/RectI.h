@@ -10,6 +10,7 @@ public:
 	bool IsColliding(const RectI& rect) const;
 	int GetWidth() const;
 	int GetHeight()const;
+	static RectI RectFromCenter(Vei2 point, int width, int height);
 public:
 	int left;
 	int top;

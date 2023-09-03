@@ -43,3 +43,9 @@ int RectI::GetWidth() const {
 int RectI::GetHeight() const {
 	return bottom - top;
 }
+
+RectI RectI::RectFromCenter(Vei2 point, int width, int height) {
+	const int top = point.x - width / 2;
+	const int left = point.y - height / 2;
+	return RectI(top, left, width, height);
+}
