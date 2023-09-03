@@ -360,6 +360,40 @@ void Graphics::DrawSprite(int x, int y, const RectI& subregion, const Surface& s
 	}
 }
 
+void Graphics::DrawSprite(int x, int y, RectI subregion, const RectI & clipRect, const Surface & surf) {
+	// modify the position and subregion to clip to the clipRect
+	if ( x < clipRect.left) {
+		const int clipAmount = clipRect.left - x;
+		subregion.left += clipAmount;
+		x = clipRect.left;
+	}
+
+	const int regionAbsoluteRight = x + subregion.GetWidth();
+	if (regionAbsoluteRight > clipRect.right) {
+		const int clipAmount = regionAbsoluteRight - clipRect.right;
+		subregion.right -= clipAmount;
+	}
+
+	if (y < clipRect.top) {
+		const int clipAmount = clipRect.top - y;
+		subregion.top += clipAmount;
+		y = clipRect.top;
+	}
+
+	const int regionAbsoluteBottom = y + subregion.GetHeight();
+	if (regionAbsoluteBottom > clipRect.bottom) {
+		const int clipAmount = regionAbsoluteBottom - clipRect.bottom;
+		subregion.bottom -= clipAmount;	}
+
+	// Draws the pixels
+	for (int sy = subregion.top; sy < subregion.bottom; sy++) {
+		for (int sx = subregion.left; sx < subregion.right; sx++) {
+			const Color pixelColor = surf.GetPixel(sx, sy);
+			PutPixel(x + sx - subregion.left, sy + y - subregion.top, pixelColor);
+		}
+	}
+}
+
 RectI Graphics::GetWindowRect() const {
 	return{ 0,0, ScreenWidth, ScreenHeight };
 }
