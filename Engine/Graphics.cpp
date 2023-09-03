@@ -347,6 +347,9 @@ void Graphics::DrawSprite(int x, int y, const Surface& surf) {
 	}
 }
 
+RectI Graphics::GetWindowRect() const {
+	return{ 0,0, ScreenWidth, ScreenHeight };
+}
 
 //////////////////////////////////////////////////
 //           Graphics Exception
