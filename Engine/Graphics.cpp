@@ -341,23 +341,11 @@ void Graphics::DrawRect(const RectI& rect, Color c) {
 }
 
 void Graphics::DrawSprite(int x, int y, const Surface& surf) {
-	const int surfaceWidth = surf.GetWidth();
-	const int surfaceHeight = surf.GetHeight();
-	for (int sy = 0; sy < surfaceHeight; sy++) {
-		for (int sx = 0; sx < surfaceWidth; sx++) {
-			const Color pixelColor = surf.GetPixel(sx, sy);
-			PutPixel(x + sx, sy + y, pixelColor);
-		}
-	}
+	DrawSprite(x, y, surf.GetRect(), surf);
 }
 
 void Graphics::DrawSprite(int x, int y, const RectI& subregion, const Surface& surf) {
-	for (int sy = subregion.top; sy < subregion.bottom; sy++) {
-		for (int sx = subregion.left; sx < subregion.right; sx++) {
-			const Color pixelColor = surf.GetPixel(sx, sy);
-			PutPixel(x + sx - subregion.left, sy + y - subregion.top, pixelColor);
-		}
-	}
+	DrawSprite(x, y, subregion, GetWindowRect(), surf);
 }
 
 void Graphics::DrawSprite(int x, int y, RectI subregion, const RectI & clipRect, const Surface & surf) {
