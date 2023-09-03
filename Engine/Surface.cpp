@@ -101,6 +101,10 @@ int Surface::GetHeight() const {
 	return height;
 }
 
+RectI Surface::GetRect() const {
+	return RectI(0,0, width, height);
+}
+
 void Surface::SetPixel(int x, int y, const Color& color) {
 	assert(x >= 0 && x < width);
 	assert(y >= 0 && y < height);
