@@ -321,9 +321,13 @@ void Graphics::PutPixel(Vei2 position, Color c) {
 }
 
 void Graphics::DrawRect(int x, int y, int width, int height, Color c) {
+	const RectI windowRect = GetWindowRect();
 	for (int dy = 0; dy < height; dy++) {
 		for (int dx = 0; dx < width; dx++) {
-			PutPixel(x + dx, y + dy, c);
+			const Vei2 position(x + dx, y + dy);
+			if (windowRect.ContainsPoint(position)) {
+				PutPixel(position, c);
+			}
 		}
 	}
 }
