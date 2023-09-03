@@ -58,6 +58,7 @@ public:
 		PutPixel( x,y,{ unsigned char( r ),unsigned char( g ),unsigned char( b ) } );
 	}
 	void PutPixel( int x,int y,Color c );
+	void PutPixel(Vei2 position, Color c);
 	void DrawSprite(int x, int y, const Surface& surf);
 	~Graphics();
 private:

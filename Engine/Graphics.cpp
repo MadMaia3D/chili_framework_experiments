@@ -316,6 +316,10 @@ void Graphics::PutPixel( int x,int y,Color c )
 	pSysBuffer[Graphics::ScreenWidth * y + x] = c;
 }
 
+void Graphics::PutPixel(Vei2 position, Color c) {
+	PutPixel(position.x, position.y, c);
+}
+
 void Graphics::DrawSprite(int x, int y, const Surface& surf) {
 	const int surfaceWidth = surf.GetWidth();
 	const int surfaceHeight = surf.GetHeight();
