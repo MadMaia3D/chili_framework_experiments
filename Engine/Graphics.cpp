@@ -351,6 +351,15 @@ void Graphics::DrawSprite(int x, int y, const Surface& surf) {
 	}
 }
 
+void Graphics::DrawSprite(int x, int y, const RectI& subregion, const Surface& surf) {
+	for (int sy = subregion.top; sy < subregion.bottom; sy++) {
+		for (int sx = subregion.left; sx < subregion.right; sx++) {
+			const Color pixelColor = surf.GetPixel(sx, sy);
+			PutPixel(x + sx - subregion.left, sy + y - subregion.top, pixelColor);
+		}
+	}
+}
+
 RectI Graphics::GetWindowRect() const {
 	return{ 0,0, ScreenWidth, ScreenHeight };
 }

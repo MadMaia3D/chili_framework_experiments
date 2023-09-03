@@ -64,6 +64,7 @@ public:
 	void DrawRect(const Vei2& position, int width, int height, Color c);
 	void DrawRect(const RectI& rect, Color c);
 	void DrawSprite(int x, int y, const Surface& surf);
+	void DrawSprite(int x, int y, const RectI& subregion, const Surface& surf);
 	RectI GetWindowRect() const;
 	~Graphics();
 private:
