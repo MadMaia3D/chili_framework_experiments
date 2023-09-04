@@ -73,6 +73,15 @@ public:
 		return std::sqrt(GetLengthSquared());
 	}
 
+	T GetDistanceSquared(Vector2 other) {
+		Vector2 delta = other - *this;
+		return delta.GetLengthSquared();
+	}
+
+	T GetDistance(Vector2 other) {
+		return std::sqrt(GetDistanceSquared(other));
+	}
+
 	Vector2<T> GetNormalized() const {
 		T length = GetLength();
 		
