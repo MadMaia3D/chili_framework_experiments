@@ -66,10 +66,13 @@
     <ClInclude Include="RectI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="FrameTimer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="Dude.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="FrameTimer.h">
+    <ClInclude Include="Poo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
