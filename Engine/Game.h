@@ -23,9 +23,18 @@
 #include "Keyboard.h"
 #include "Mouse.h"
 #include "Graphics.h"
+#include "FrameTimer.h"
+#include "Dude.h"
+#include "Poo.h"
+#include <vector>
 
 class Game
 {
+	enum GameState {
+		MENU,
+		PLAYING,
+		GAMEOVER
+	};
 public:
 	Game( class MainWindow& wnd );
 	Game( const Game& ) = delete;
@@ -42,5 +51,12 @@ private:
 	Graphics gfx;
 	/********************************/
 	/*  User Variables              */
+	FrameTimer frameTimer;
+	Dude dude;
+	std::vector<Poo> poos;
+	const Surface pooSprite;
+	const Surface menuSprite;
+	const Surface gameOverSprite;
+	GameState gameState = GameState::MENU;
 	/********************************/
 };
