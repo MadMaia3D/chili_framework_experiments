@@ -93,3 +93,6 @@ public:
 	T x = 0;
 	T y = 0;
 };
+
+typedef Vector2<int> Vei2;
+typedef Vector2<float> Vec2;
