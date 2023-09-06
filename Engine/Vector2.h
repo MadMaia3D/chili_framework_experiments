@@ -32,7 +32,7 @@ public:
 		return{ x - other.x, y - other.y };
 	}
 	Vector2 operator-(const Vector2& other) {
-		return{ *this - other };
+		return{ x - other.x, y - other.y };
 	}
 	Vector2& operator-=(const Vector2& other) {
 		*this = *this - other;
