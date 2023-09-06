@@ -1,17 +1,16 @@
 #pragma once
 #include "Graphics.h"
+#include "SpriteSheet.h"
 #include <vector>
 
 class Animation {
 public:
-	Animation(int x, int y, int nColumns, int nRows, int nFrames, float frameDuration,
-		const Surface& spriteSheet, const Color& chroma = Colors::Magenta);
+	Animation(int x, int y, int nFrames, float frameDuration, const SpriteSheet& spriteSheet);
 	void Update(float deltaTime);
 	void Draw( Vei2 position, Graphics& gfx) const;
 	void AdvanceFrame();
 private:
-	const Surface& spriteSheet;
-	const Color& chroma;
+	const SpriteSheet& spriteSheet;
 	const float frameDuration;
 	const int totalFramesCount;
 	std::vector<RectI> frameRects;

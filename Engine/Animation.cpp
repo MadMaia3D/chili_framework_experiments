@@ -1,19 +1,19 @@
 #include "Animation.h"
 #include <assert.h>
 
-Animation::Animation(int x, int y, int nColumns, int nRows, int nFrames, float frameDuration,
-	const Surface& spriteSheet, const Color& chroma)
+Animation::Animation(int x, int y, int nFrames, float frameDuration, const SpriteSheet& spriteSheet)
 	:
 	spriteSheet(spriteSheet),
-	chroma(chroma),
 	frameDuration(frameDuration),
 	totalFramesCount(nFrames)
 {
+	const int nColumns = spriteSheet.nColumns;
+	const int nRows = spriteSheet.nRows;
 	assert(nColumns > 0 && nRows > 0);
 	assert(x < nColumns && y < nRows);
 
-	const int spriteSheetWidth = spriteSheet.GetWidth();
-	const int spriteSheetHeight = spriteSheet.GetHeight();
+	const int spriteSheetWidth = spriteSheet.width;
+	const int spriteSheetHeight = spriteSheet.height;
 	const int frameWidth = spriteSheetWidth / nColumns;
 	const int frameHeight = spriteSheetHeight / nRows;
 	const int framesStartingColumn = x * frameWidth;
@@ -37,7 +37,7 @@ void Animation::Update(float deltaTime) {
 }
 
 void Animation::Draw(Vei2 position, Graphics& gfx) const {
-	gfx.DrawSprite(position.x, position.y, frameRects[currentFrame], spriteSheet, chroma);
+	gfx.DrawSprite(position.x, position.y, frameRects[currentFrame], spriteSheet.image, spriteSheet.chroma);
 }
 
 void Animation::AdvanceFrame() {
