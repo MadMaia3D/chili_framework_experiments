@@ -16,13 +16,15 @@ Surface::Surface(int width, int height)
 Surface::Surface(std::string file) {
 	std::ifstream input(file, std::ios::binary);
 
+	assert(input);
+
 	BITMAPFILEHEADER bitmapFileHeader;
 	input.read(reinterpret_cast<char*>(&bitmapFileHeader), sizeof(bitmapFileHeader));
 
 	BITMAPINFOHEADER bitmapInfoHeader;
 	input.read(reinterpret_cast<char*>(&bitmapInfoHeader), sizeof(bitmapInfoHeader));
 
-	assert(bitmapFileHeader.bfType = 'BM');
+	assert(bitmapFileHeader.bfType == 'MB');
 	assert(bitmapInfoHeader.biBitCount == 24 || bitmapInfoHeader.biBitCount == 32);
 	assert(bitmapInfoHeader.biCompression == BI_RGB);
 
