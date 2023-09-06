@@ -4,26 +4,25 @@
 
 class Poo {
 public:
-	Poo(const Vec2& position, const Vec2& velocity, float speed, const Surface& spritePathName)
+	Poo(const Vec2& position, const Vec2& velocity, float speed, const Surface& surface)
 		:
+		sprite(surface),
 		position(position),
 		velocity(velocity),
-		speed(speed) {
-		sprite = &spritePathName;
-		width = sprite->GetWidth();
-		height = sprite->GetHeight();
+		speed(speed)
+	{
+		width = sprite.GetWidth();
+		height = sprite.GetHeight();
 	}
 
-	~Poo() {
-		sprite = nullptr;
-	}
-
-	void Update(float deltaTime) {
+	void Update(float deltaTime)
+	{
 		position += velocity * speed * deltaTime;
 		BounceOffScreen();
 	}
 
-	void BounceOffScreen() {
+	void BounceOffScreen()
+	{
 		if (position.x < 0.0f) {
 			position.x = 0.0f;
 			velocity.x *= -1;
@@ -42,19 +41,21 @@ public:
 		}
 	}
 
-	void Draw(Graphics& gfx) const {
-		gfx.DrawSprite(int(position.x), int(position.y), *sprite, Colors::White);
+	void Draw(Graphics& gfx) const
+	{
+		gfx.DrawSprite(int(position.x), int(position.y), sprite, Colors::White);
 	}
 
-	const RectI GetRect() const {
+	const RectI GetRect() const
+	{
 		return{ position, width, height };
 	}
 
 private:
+	const Surface& sprite;
 	Vec2 position;
 	Vec2 velocity;
 	float speed;
-	const Surface* sprite = nullptr;
 	int width;
 	int height;
 
