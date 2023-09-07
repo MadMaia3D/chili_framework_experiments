@@ -61,12 +61,11 @@ void Character::ProcessInput(const Keyboard& keyboard)
 		}
 		direction = {0,0};
 	}
-
 }
 
 void Character::Update(float deltaTime)
 {
-	position += Vec2(direction) * speed * deltaTime;
+	position += Vec2(direction.GetNormalized()) * speed * deltaTime;
 	animations[int(currentAnimation)].Update(deltaTime);
 }
 
