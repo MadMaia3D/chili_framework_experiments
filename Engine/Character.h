@@ -28,7 +28,7 @@ private:
 	std::vector<Animation> animations;
 	State currentAnimation = State::standingDown;
 	Vec2 position;
-	Vec2 direction;
+	Vec2 lastInput;
 	static constexpr float frameDuration = 0.15f;
 	static constexpr float speed = 140.0f;
 };

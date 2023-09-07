@@ -6,11 +6,11 @@ Character::Character(Vei2 position)
 	spriteSheet(5, 4, image),
 	position(position)
 {
-	for (int v = 0; v < int(State::standingLeft); v++) {
-		animations.emplace_back(1, v, 4, frameDuration, spriteSheet);
+	for (int row = 0; row < int(State::standingLeft); row++) {
+		animations.emplace_back(1, row, 4, frameDuration, spriteSheet);
 	}
-	for (int v = 0; v < int(State::count) - int(State::standingLeft); v++) {
-		animations.emplace_back(0, v, 1, frameDuration, spriteSheet);
+	for (int row = 0; row < int(State::count) - int(State::standingLeft); row++) {
+		animations.emplace_back(0, row, 1, frameDuration, spriteSheet);
 	}
 }
 
@@ -31,41 +31,41 @@ void Character::ProcessInput(const Keyboard& keyboard)
 	}
 
 	if (input != Vei2(0, 0)) {
-		direction = input;
+		lastInput = input;
 
-		if (direction.x == -1) {
+		if (input.x == -1) {
 			currentAnimation = State::walkingLeft;
 		}
-		else if (direction.x == 1) {
+		else if (input.x == 1) {
 			currentAnimation = State::walkingRight;
 		}
-		else if (direction.y == -1) {
+		else if (input.y == -1) {
 			currentAnimation = State::walkingUp;
 		}
-		else if (direction.y == 1) {
+		else if (input.y == 1) {
 			currentAnimation = State::walkingDown;
 		}
 	}
 	else {
-		if (direction.x == -1) {
+		if (lastInput.x == -1) {
 			currentAnimation = State::standingLeft;
 		}
-		else if (direction.x == 1) {
+		else if (lastInput.x == 1) {
 			currentAnimation = State::standingRight;
 		}
-		else if (direction.y == -1) {
+		else if (lastInput.y == -1) {
 			currentAnimation = State::standingUp;
 		}
-		else if (direction.y == 1) {
+		else if (lastInput.y == 1) {
 			currentAnimation = State::standingDown;
 		}
-		direction = {0,0};
+		lastInput = {0,0};
 	}
 }
 
 void Character::Update(float deltaTime)
 {
-	position += Vec2(direction.GetNormalized()) * speed * deltaTime;
+	position += Vec2(lastInput.GetNormalized()) * speed * deltaTime;
 	animations[int(currentAnimation)].Update(deltaTime);
 }
 
