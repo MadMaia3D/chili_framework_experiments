@@ -21,6 +21,7 @@ public:
 		x(T(source.x)),
 		y(T(source.y)) {
 	}
+	// COMPARISON OPERATORS
 	bool operator==(const Vector2& other) const 
 	{
 		return (x == other.x && y == other.y);
@@ -29,6 +30,7 @@ public:
 	{
 		return !(*this == other);
 	}
+	// ARITHMETIC OPERATORS
 	Vector2 operator+(const Vector2& other) {
 		return{ x + other.x, y + other.y };
 	}
@@ -61,6 +63,7 @@ public:
 		return *this;
 	}
 
+	// MEMBER FUNCTIONS
 	float GetDistanceSquared(Vector2 position) {
 		const float deltaX = float(x) - position.x;
 		const float deltaY = float(y) - position.y;
