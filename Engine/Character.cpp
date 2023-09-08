@@ -73,3 +73,8 @@ void Character::Draw(Graphics& gfx) const
 {
 	animations[int(currentAnimation)].Draw(Vei2(position), gfx);
 }
+
+void Character::Draw(float alpha, Graphics& gfx) const
+{
+	animations[int(currentAnimation)].Draw(Vei2(position), alpha, gfx);
+}

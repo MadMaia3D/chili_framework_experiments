@@ -22,6 +22,7 @@ public:
 	void ProcessInput(const Keyboard& keyboard);
 	void Update(float deltaTime);
 	void Draw(Graphics& gfx) const;
+	void Draw(float alpha, Graphics& gfx) const;
 private:
 	const Surface image;
 	const SpriteSheet spriteSheet;
