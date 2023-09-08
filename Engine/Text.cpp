@@ -13,10 +13,20 @@ Text::Text(std::string pathName, Color chroma)
 }
 
 void Text::DrawText(const std::string text, const Vei2& position, const Color& fillColor, Graphics& gfx) const {
-	for (int i = 0; i < text.length(); i++) {
-		const char c = text[i];
-		RectI charRect = MapGlyphRect(c);
-		gfx.DrawSpriteSubstituteColor(position.x + i * glyphWidth, position.y, charRect, image, fillColor, chroma);
+	Vei2 currentPosition = position;
+
+	for (char c : text) {
+		if (c == '\n') {
+			currentPosition.x = position.x;
+			currentPosition.y += glyphHeight;
+			continue;
+		}
+
+		if ( c >= firstChar + 1 && c <= lastChar) {
+			RectI charRect = MapGlyphRect(c);
+			gfx.DrawSpriteSubstituteColor(currentPosition.x, currentPosition.y, charRect, image, fillColor, chroma);
+		}
+		currentPosition.x += glyphWidth;
 	}
 }
 
