@@ -82,6 +82,10 @@ public:
 	void DrawSprite(int x, int y, const RectI& subregion, const Surface& surf, const Color& chroma);
 	void DrawSprite(int x, int y, RectI subregion, const RectI& clipRect, const Surface& surf, const Color& chroma);
 
+	void DrawSprite(int x, int y, const Surface& surf, float alpha, const Color& chroma);
+	void DrawSprite(int x, int y, const RectI& subregion, const Surface& surf, float alpha, const Color& chroma);
+	void DrawSprite(int x, int y, RectI subregion, const RectI& clipRect, const Surface& surf, float alpha, const Color& chroma);
+
 	void DrawSpriteSubstituteColor(int x, int y, const Surface& surf, const Color& fillColor, const Color& chroma);
 	void DrawSpriteSubstituteColor(int x, int y, const RectI& subregion, const Surface& surf, const Color& fillColor, const Color& chroma);
 	void DrawSpriteSubstituteColor(int x, int y, RectI subregion, const RectI& clipRect, const Surface& surf, const Color& fillColor, const Color& chroma);
