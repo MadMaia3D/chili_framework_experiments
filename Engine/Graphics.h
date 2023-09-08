@@ -55,26 +55,39 @@ public:
 	Graphics& operator=( const Graphics& ) = delete;
 	void EndFrame();
 	void BeginFrame();
+
 	void PutPixel( int x,int y,Color c );
 	void PutPixel(int x, int y, int r, int g, int b);
 	void PutPixel(Vector2<int> position, Color c);
 	void PutPixel(int x, int y, Color c, float alpha);
+
 	Color GetPixel(int x, int y);
+
 	void DrawLine(Vector2<int> start, Vector2<int> end, Color color);
+	
 	void DrawRect(int x, int y, int width, int height, Color c);
 	void DrawRect(Vector2<int> position, int width, int height, Color c);
 	void DrawRect(RectI rect, Color c);
 	void DrawRect(int x, int y, int width, int height, Color c, float alpha);
 	void DrawRect(Vector2<int> position, int width, int height, Color c, float alpha);
 	void DrawRect(RectI rect, Color c, float alpha);
+
 	void DrawCircle(Vector2<int> position, int radius, Color c);
+
 	void DrawSpriteNonChroma(int x, int y, const Surface& surf);
 	void DrawSpriteNonChroma(int x, int y, const RectI& subregion, const Surface& surf);
 	void DrawSpriteNonChroma(int x, int y, RectI subregion, const RectI& clipRect, const Surface& surf);
+
 	void DrawSprite(int x, int y, const Surface& surf, const Color& chroma);
 	void DrawSprite(int x, int y, const RectI& subregion, const Surface& surf, const Color& chroma);
 	void DrawSprite(int x, int y, RectI subregion, const RectI& clipRect, const Surface& surf, const Color& chroma);
+
+	void DrawSpriteSubstituteColor(int x, int y, const Surface& surf, const Color& fillColor, const Color& chroma);
+	void DrawSpriteSubstituteColor(int x, int y, const RectI& subregion, const Surface& surf, const Color& fillColor, const Color& chroma);
+	void DrawSpriteSubstituteColor(int x, int y, RectI subregion, const RectI& clipRect, const Surface& surf, const Color& fillColor, const Color& chroma);
+
 	RectI GetScreenRect();
+
 	~Graphics();
 private:
 	Microsoft::WRL::ComPtr<IDXGISwapChain>				pSwapChain;
