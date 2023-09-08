@@ -40,6 +40,11 @@ void Animation::Draw(Vei2 position, Graphics& gfx) const {
 	gfx.DrawSprite(position.x, position.y, frameRects[currentFrame], spriteSheet.image, spriteSheet.chroma);
 }
 
+void Animation::Draw(Vei2 position, float alpha, Graphics& gfx) const
+{
+	gfx.DrawSprite(position.x, position.y, frameRects[currentFrame], spriteSheet.image, alpha, spriteSheet.chroma);
+}
+
 void Animation::AdvanceFrame() {
 	if (++currentFrame >= totalFramesCount) {
 		currentFrame = 0;

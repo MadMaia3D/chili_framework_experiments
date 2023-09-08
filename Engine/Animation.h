@@ -8,6 +8,7 @@ public:
 	Animation(int x, int y, int nFrames, float frameDuration, const SpriteSheet& spriteSheet);
 	void Update(float deltaTime);
 	void Draw( Vei2 position, Graphics& gfx) const;
+	void Draw(Vei2 position, float alpha, Graphics& gfx) const;
 private:
 	void AdvanceFrame();
 private:
