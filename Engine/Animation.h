@@ -7,8 +7,12 @@ class Animation {
 public:
 	Animation(int x, int y, int nFrames, float frameDuration, const SpriteSheet& spriteSheet);
 	void Update(float deltaTime);
-	void Draw( Vei2 position, Graphics& gfx) const;
-	void Draw(Vei2 position, float alpha, Graphics& gfx) const;
+
+	template<typename SpriteEffect>
+	void Draw(Vei2 position, const SpriteEffect& effect, Graphics& gfx) const
+	{
+		gfx.DrawSprite(position.x, position.y, frameRects[currentFrame], spriteSheet.image, effect);
+	}
 private:
 	void AdvanceFrame();
 private:

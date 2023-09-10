@@ -3,6 +3,7 @@
 Character::Character(Vei2 position)
 	:
 	image(".\\images\\link90x90.bmp"),
+	spriteEffect(Colors::Magenta),
 	spriteSheet(5, 4, image),
 	position(position)
 {
@@ -71,10 +72,5 @@ void Character::Update(float deltaTime)
 
 void Character::Draw(Graphics& gfx) const
 {
-	animations[int(currentAnimation)].Draw(Vei2(position), gfx);
-}
-
-void Character::Draw(float alpha, Graphics& gfx) const
-{
-	animations[int(currentAnimation)].Draw(Vei2(position), alpha, gfx);
+	animations[int(currentAnimation)].Draw(Vei2(position), spriteEffect, gfx);
 }

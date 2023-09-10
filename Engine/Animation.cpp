@@ -1,4 +1,5 @@
 #include "Animation.h"
+#include "SpriteEffects.h"
 #include <assert.h>
 
 Animation::Animation(int x, int y, int nFrames, float frameDuration, const SpriteSheet& spriteSheet)
@@ -34,15 +35,6 @@ void Animation::Update(float deltaTime) {
 		currentTime -= frameDuration;
 		AdvanceFrame();
 	}
-}
-
-void Animation::Draw(Vei2 position, Graphics& gfx) const {
-	gfx.DrawSprite(position.x, position.y, frameRects[currentFrame], spriteSheet.image, spriteSheet.chroma);
-}
-
-void Animation::Draw(Vei2 position, float alpha, Graphics& gfx) const
-{
-	gfx.DrawSprite(position.x, position.y, frameRects[currentFrame], spriteSheet.image, alpha, spriteSheet.chroma);
 }
 
 void Animation::AdvanceFrame() {

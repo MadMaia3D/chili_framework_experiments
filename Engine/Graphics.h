@@ -27,6 +27,7 @@
 #include "Vector2.h"
 #include "RectI.h"
 #include "Surface.h"
+#include <assert.h>
 
 class Graphics
 {
@@ -74,21 +75,52 @@ public:
 
 	void DrawCircle(Vector2<int> position, int radius, Color c);
 
-	void DrawSpriteNonChroma(int x, int y, const Surface& surf);
-	void DrawSpriteNonChroma(int x, int y, const RectI& subregion, const Surface& surf);
-	void DrawSpriteNonChroma(int x, int y, RectI subregion, const RectI& clipRect, const Surface& surf);
+	template<typename SpriteEffect>
+	void DrawSprite(int x, int y, const Surface& surf, const SpriteEffect& effect)
+	{
+		DrawSprite(x, y, surf.GetSurfaceRect(), GetScreenRect(), surf, effect);
+	}
+	template<typename SpriteEffect>
+	void DrawSprite(int x, int y, const RectI& subregion, const Surface& surf, const SpriteEffect& effect)
+	{
+		DrawSprite(x, y, subregion, GetScreenRect(), surf, effect);
+	}
+	template<typename SpriteEffect>
+	void DrawSprite(int x, int y, RectI subregion, const RectI& clipRect, const Surface& surf, const SpriteEffect& effect)
+	{
+		assert(0 <= subregion.left);
+		assert(subregion.right <= surf.GetWidth());
+		assert(0 <= subregion.top);
+		assert(subregion.bottom <= surf.GetHeight());
 
-	void DrawSprite(int x, int y, const Surface& surf, const Color& chroma);
-	void DrawSprite(int x, int y, const RectI& subregion, const Surface& surf, const Color& chroma);
-	void DrawSprite(int x, int y, RectI subregion, const RectI& clipRect, const Surface& surf, const Color& chroma);
+		if (x < clipRect.left) {
+			const int leftClipSize = clipRect.left - x;
+			subregion.left += leftClipSize;
+			x += leftClipSize;
+		}
+		if ((x + subregion.GetWidth()) > clipRect.right) {
+			const int rightClipSize = (x + subregion.GetWidth()) - clipRect.right;
+			subregion.right -= rightClipSize;
+		}
+		if (y < clipRect.top) {
+			const int topClipSize = clipRect.top - y;
+			subregion.top += topClipSize;
+			y += topClipSize;
+		}
+		if ((y + subregion.GetHeight()) > clipRect.bottom) {
+			const int bottomClipSize = (y + subregion.GetHeight()) - clipRect.bottom;
+			subregion.bottom -= bottomClipSize;
+		}
 
-	void DrawSprite(int x, int y, const Surface& surf, float alpha, const Color& chroma);
-	void DrawSprite(int x, int y, const RectI& subregion, const Surface& surf, float alpha, const Color& chroma);
-	void DrawSprite(int x, int y, RectI subregion, const RectI& clipRect, const Surface& surf, float alpha, const Color& chroma);
-
-	void DrawSpriteSubstituteColor(int x, int y, const Surface& surf, const Color& fillColor, const Color& chroma);
-	void DrawSpriteSubstituteColor(int x, int y, const RectI& subregion, const Surface& surf, const Color& fillColor, const Color& chroma);
-	void DrawSpriteSubstituteColor(int x, int y, RectI subregion, const RectI& clipRect, const Surface& surf, const Color& fillColor, const Color& chroma);
+		for (int sy = subregion.top; sy < subregion.bottom; sy++) {
+			for (int sx = subregion.left; sx < subregion.right; sx++) {
+				const int xDestination = x + sx - subregion.left;
+				const int yDestination = y + sy - subregion.top;
+				const Color pixelColor = surf.GetPixel(sx, sy);
+				effect(*this, xDestination, yDestination, pixelColor);
+			}
+		}
+	}
 
 	RectI GetScreenRect();
 

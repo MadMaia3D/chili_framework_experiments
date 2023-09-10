@@ -2,6 +2,7 @@
 #include "Graphics.h"
 #include "Animation.h"
 #include "Keyboard.h"
+#include "SpriteEffects.h"
 #include <vector>
 
 class Character {
@@ -22,10 +23,10 @@ public:
 	void ProcessInput(const Keyboard& keyboard);
 	void Update(float deltaTime);
 	void Draw(Graphics& gfx) const;
-	void Draw(float alpha, Graphics& gfx) const;
 private:
 	const Surface image;
 	const SpriteSheet spriteSheet;
+	SpriteEffects::Chroma spriteEffect;
 	std::vector<Animation> animations;
 	State currentAnimation = State::standingDown;
 	Vec2 position;

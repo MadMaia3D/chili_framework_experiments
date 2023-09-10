@@ -1,10 +1,10 @@
 #include "Text.h"
 #include <assert.h>
 
-Text::Text(std::string pathName, Color chroma) 
+Text::Text(std::string pathName, const Color& fillColor, const Color& chroma)
 	:
 	image(pathName),
-	chroma(chroma),
+	spriteEffect(fillColor, chroma),
 	glyphWidth(image.GetWidth() / nColumns),
 	glyphHeight(image.GetHeight() /nRows)
 {
@@ -24,7 +24,7 @@ void Text::DrawText(const std::string text, const Vei2& position, const Color& f
 
 		if ( c >= firstChar + 1 && c <= lastChar) {
 			RectI charRect = MapGlyphRect(c);
-			gfx.DrawSpriteSubstituteColor(currentPosition.x, currentPosition.y, charRect, image, fillColor, chroma);
+			gfx.DrawSprite(currentPosition.x, currentPosition.y, charRect, image, spriteEffect);
 		}
 		currentPosition.x += glyphWidth;
 	}
