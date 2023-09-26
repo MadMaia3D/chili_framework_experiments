@@ -12,7 +12,7 @@ Text::Text(std::string pathName, const Color& fillColor, const Color& chroma)
 	assert(glyphHeight * nRows == image.GetHeight());
 }
 
-void Text::DrawText(const std::string text, const Vei2& position, const Color& fillColor, Graphics& gfx) const {
+void Text::DrawText(const std::string text, const Vei2& position, Graphics& gfx) const {
 	Vei2 currentPosition = position;
 
 	for (char c : text) {
