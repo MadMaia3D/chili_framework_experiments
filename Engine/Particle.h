@@ -10,6 +10,13 @@ public:
 		velocity(velocity),
 		acceleration(acceleration) {
 	}
+	void Accelerate(Vector2<float> force) {
+		velocity += force;
+	}
+	void ApplyForce(Vector2<float> force)
+	{
+		Accelerate(force);
+	}
 	void Update(float deltaTime) {
 		velocity += acceleration * deltaTime;
 		position += velocity * deltaTime;
@@ -17,8 +24,12 @@ public:
 	void SetColor(const Color& c) {
 		color = c;
 	}
-	void Draw(Graphics& gfx) const {
-		gfx.DrawCircle(position, 3, color);
+	void Draw(int radius, Graphics& gfx) const {
+		gfx.DrawCircle(position, radius, color);
+	}
+protected:
+	Vector2<float> GetPosition() const {
+		return position;
 	}
 private:
 	Color color = Colors::White;
