@@ -31,7 +31,8 @@ public:
 		return !(*this == other);
 	}
 	// ARITHMETIC OPERATORS
-	Vector2 operator+(const Vector2& other) {
+	Vector2 operator+(const Vector2& other) const
+	{
 		return{ x + other.x, y + other.y };
 	}
 	Vector2& operator+=(const Vector2& other) {
@@ -41,21 +42,21 @@ public:
 	Vector2 operator-(const Vector2& other) const {
 		return{ x - other.x, y - other.y };
 	}
-	Vector2 operator-(const Vector2& other) {
-		return{ x - other.x, y - other.y };
-	}
+
 	Vector2& operator-=(const Vector2& other) {
 		*this = *this - other;
 		return *this;
 	}
-	Vector2 operator*(T value) {
+	Vector2 operator*(T value) const
+	{
 		return{ x * value, y * value };
 	}
 	Vector2& operator*=(T value) {
 		*this = *this * value;
 		return *this;
 	}
-	Vector2 operator/(T value) {
+	Vector2 operator/(T value) const
+	{
 		return{ x / value, y / value };
 	}
 	Vector2& operator/=(T value) {
@@ -70,15 +71,18 @@ public:
 		return deltaX * deltaX + deltaY * deltaY;
 	}
 
-	float GetLengthSquared() {
+	float GetLengthSquared() const
+	{
 		return float(x * x + y * y);
 	}
 
-	float GetLength() {
+	float GetLength() const
+	{
 		return std::sqrt(GetLengthSquared());
 	}
 
-	Vector2 GetNormalized() {
+	Vector2 GetNormalized() const
+	{
 		const float length = GetLength();
 		if (length != (T)0) {
 			return *this / (T)length;
@@ -104,6 +108,12 @@ public:
 	T x = 0;
 	T y = 0;
 };
+
+template <typename T>
+Vector2<T> operator*(float value, const Vector2<T>& vec)
+{
+	return{ vec.x * value, vec.y * value };
+}
 
 typedef Vector2<int> Vei2;
 typedef Vector2<float> Vec2;
