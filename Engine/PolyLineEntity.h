@@ -9,14 +9,16 @@ public:
 	PolyLineEntity(const Vector2<float>& position, const std::vector<Vector2<float>>& points);
 	void Move(const Vector2<float>& offset);
 	const Vector2<float>& GetPosition() const;
+	float GetRotation() const;
 	void Rotate(float degrees);
 	void SetScale(const Vector2<float>& newScale);
 	void SetScale(float newScale);
 	void SetColor(Color c);
+	Color GetColor() const;
 	void LookAt(const Vector2<float>& targetPosition);
 	void Draw(Graphics& gfx) const;
-private:
-	const std::vector<Vector2<float>> GetTransformatedModel() const;
+protected:
+	const std::vector<Vector2<float>> GetTransformedModel(const std::vector<Vector2<float>>& model) const;
 private:
 	std::vector<Vector2<float>> points;
 	Vector2<float> position{ 0.0f ,0.0f };

@@ -14,6 +14,11 @@ const Vector2<float>& PolyLineEntity::GetPosition() const {
 	return position;
 }
 
+float PolyLineEntity::GetRotation() const
+{
+	return rotation;
+}
+
 void PolyLineEntity::Rotate(float degrees) {
 	rotation += degrees;
 }
@@ -31,6 +36,11 @@ void PolyLineEntity::SetColor(Color c) {
 	color = c;
 }
 
+Color PolyLineEntity::GetColor() const
+{
+	return color;
+}
+
 void PolyLineEntity::LookAt(const Vector2<float>& targetPosition) {
 	auto deltaPosition = targetPosition - position;
 	if (deltaPosition.x == 0.0f || deltaPosition.y == 0.0f) {
@@ -46,20 +56,16 @@ void PolyLineEntity::Draw(Graphics & gfx) const {
 		return;
 	}
 
-	auto pointsCopy = GetTransformatedModel();
-	for (int i = 0; i < pointsSize - 1; i++) {
-		gfx.DrawLine(pointsCopy[i], pointsCopy[i + 1], color);
-	}
+	auto pointsCopy = GetTransformedModel(points);
 
-	gfx.DrawLine(pointsCopy.front(), pointsCopy.back(), color);
-
+	gfx.DrawPolyLineClosed(pointsCopy, color);
 	if (pointsSize == 1) {
 		gfx.DrawCircle(pointsCopy.front(), 3, color);
 	}
 }
 
-const std::vector<Vector2<float>> PolyLineEntity::GetTransformatedModel() const {
-	auto pointsCopy = points;
+const std::vector<Vector2<float>> PolyLineEntity::GetTransformedModel(const std::vector<Vector2<float>>& model) const {
+	auto pointsCopy = model;
 	const float rotationInRadians = MathUtilities::DegreesToRadians(rotation);
 
 	for (auto &point : pointsCopy) {
