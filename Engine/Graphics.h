@@ -22,6 +22,7 @@
 #include "ChiliWin.h"
 #include <d3d11.h>
 #include <wrl.h>
+#include <vector>
 #include "ChiliException.h"
 #include "Colors.h"
 #include "Vector2.h"
@@ -65,6 +66,8 @@ public:
 	Color GetPixel(int x, int y);
 
 	void DrawLine(Vector2<int> start, Vector2<int> end, Color color);
+	void DrawPolyLine(const std::vector<Vector2<float>>& model, Color color);
+	void DrawPolyLineClosed(const std::vector<Vector2<float>>& model, Color color);
 	
 	void DrawRect(int x, int y, int width, int height, Color c);
 	void DrawRect(Vector2<int> position, int width, int height, Color c);

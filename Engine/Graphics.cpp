@@ -358,6 +358,20 @@ void Graphics::DrawLine(Vector2<int> start, Vector2<int> end, Color color) {
 	}
 }
 
+void Graphics::DrawPolyLine(const std::vector<Vector2<float>>& model, Color color)
+{
+	const auto modelSize = model.size();
+	for (int i = 0; i < modelSize - 1; i++) {
+		DrawLine(model[i], model[i + 1], color);
+	}
+}
+
+void Graphics::DrawPolyLineClosed(const std::vector<Vector2<float>>& model, Color color)
+{
+	DrawPolyLine(model, color);
+	DrawLine(model.front(), model.back(), color);
+}
+
 void Graphics::DrawRect(int x, int y, int width, int height, Color c) {
 	for (int py = 0; py < height; py++) {
 		for (int px = 0; px < width; px++) {
