@@ -4,55 +4,71 @@
 
 class Particle {
 public:
-	Particle(Vector2<float> position, Vector2<float> velocity = { 0.0f,0.0f }, Vector2<float> acceleration = { 0.0f,0.0f })
+	Particle(Vec2 position,
+		Vec2 velocity = { 0.0f,0.0f },
+		Vec2 acceleration = { 0.0f,0.0f },
+		float friction = 0.0f)
 		:
 		position(position),
 		velocity(velocity),
-		acceleration(acceleration) {
-	}
-	void Accelerate(Vector2<float> force) {
+		acceleration(acceleration),
+		friction (friction)
+	{}
+	void Accelerate(Vec2 force) {
 		velocity += force;
 	}
-	void ApplyForce(Vector2<float> force)
+	void ApplyForce(Vec2 force)
 	{
 		Accelerate(force);
 	}
 	void Update(float deltaTime) {
 		velocity += acceleration * deltaTime;
+
+		Vec2 frictionForce = velocity.GetNormalized() * -friction;
+		velocity += frictionForce * deltaTime;
+
+		if (velocity.GetLengthSquared() < 10.0f) {
+			velocity = { 0,0 };
+		}
 		position += velocity * deltaTime;
+	}
+	Vec2 GetPosition() const
+	{
+		return position;
+	}
+	bool IsMoving() const
+	{
+		return velocity.GetLengthSquared() > 10.0f;
 	}
 	void SetColor(const Color& c) {
 		color = c;
 	}
-	void Draw(int radius, Graphics& gfx) const {
+	void Draw(Graphics& gfx, int radius = 5) const {
 		gfx.DrawCircle(position, radius, color);
-	}
-protected:
-	Vector2<float> GetPosition() const {
-		return position;
 	}
 private:
 	Color color = Colors::White;
-	Vector2<float> position;
-	Vector2<float> velocity;
-	Vector2<float> acceleration;
+	Vec2 position;
+	Vec2 velocity;
+	Vec2 acceleration;
+	float friction;
 };
 
 class ParticleBody : public Particle {
 public:
-	ParticleBody(Vector2<float> position, float mass, Vector2<float> velocity = { 0.0f,0.0f }, Vector2<float> acceleration = { 0.0f,0.0f })
+	ParticleBody(Vec2 position, float mass, Vec2 velocity = { 0.0f,0.0f }, Vec2 acceleration = { 0.0f,0.0f })
 		:
 		Particle(position, velocity, acceleration),
 		mass(mass)
 	{}
 	void GravitateTo (const ParticleBody& body, float deltaTime) {
-		const Vector2<float> deltaPosition = body.GetPosition() - GetPosition();
-		const Vector2<float> direction = deltaPosition.GetNormalized();
+		const Vec2 deltaPosition = body.GetPosition() - GetPosition();
+		const Vec2 direction = deltaPosition.GetNormalized();
 
 		const float distanceSquared = GetPosition().GetDistanceSquared(body.GetPosition());
 		const float forceMagnitude = body.mass / distanceSquared;
 
-		const Vector2<float> gravity = forceMagnitude * direction * GRAVITATIONAL_CONSTANT;
+		const Vec2 gravity = forceMagnitude * direction * GRAVITATIONAL_CONSTANT;
 
 		ApplyForce(gravity * deltaTime);
 	}
