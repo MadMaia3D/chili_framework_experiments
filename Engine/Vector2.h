@@ -81,6 +81,11 @@ public:
 		return std::sqrt(GetLengthSquared());
 	}
 
+	void SetLength(T value) {
+		Normalize();
+		*this *= value;
+	}
+
 	Vector2 GetNormalized() const
 	{
 		const float length = GetLength();
