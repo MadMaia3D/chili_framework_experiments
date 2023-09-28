@@ -1,7 +1,8 @@
 #pragma once
 #include "Graphics.h"
 #include <cmath>
-
+#include <Windows.h>
+#include <string>
 class Particle {
 public:
 	Particle(Vec2 position,
@@ -23,18 +24,16 @@ public:
 	}
 	void Update(float deltaTime) {
 		velocity += acceleration * deltaTime;
-
-		Vec2 frictionForce = velocity.GetNormalized() * -friction;
-		velocity += frictionForce * deltaTime;
-
-		if (velocity.GetLengthSquared() < 10.0f) {
-			velocity = { 0,0 };
-		}
+		velocity *= (1 - friction);
 		position += velocity * deltaTime;
-	}
+	} 
 	Vec2 GetPosition() const
 	{
 		return position;
+	}
+	void SetFriction(float value)
+	{
+		friction = value;
 	}
 	bool IsMoving() const
 	{
