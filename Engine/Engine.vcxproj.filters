@@ -16,6 +16,12 @@
     <Filter Include="Shaders">
       <UniqueIdentifier>{8b6c92a8-f65d-451e-80e3-d65773602b92}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\MyClasses">
+      <UniqueIdentifier>{7fb3cf6b-1603-41bd-9b4c-1b223e0f3ffb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\ChiliLessons">
+      <UniqueIdentifier>{6941eeea-27dc-4f60-92ba-a561fb399812}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ChiliWin.h">
@@ -57,47 +63,47 @@
     <ClInclude Include="COMInitializer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MathUtilities.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vector2.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="RectI.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="FrameTimer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PolyLineEntity.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Particle.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Surface.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Animation.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SpriteSheet.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\ChiliLessons</Filter>
     </ClInclude>
     <ClInclude Include="Character.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Text.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\ChiliLessons</Filter>
     </ClInclude>
     <ClInclude Include="SpriteEffects.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\ChiliLessons</Filter>
     </ClInclude>
-    <ClInclude Include="Ship.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="SpriteSheet.h">
+      <Filter>Header Files\ChiliLessons</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector2.h">
+      <Filter>Header Files\ChiliLessons</Filter>
+    </ClInclude>
+    <ClInclude Include="Text.h">
+      <Filter>Header Files\ChiliLessons</Filter>
+    </ClInclude>
+    <ClInclude Include="Surface.h">
+      <Filter>Header Files\ChiliLessons</Filter>
     </ClInclude>
     <ClInclude Include="Spring.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\MyClasses</Filter>
+    </ClInclude>
+    <ClInclude Include="MathUtilities.h">
+      <Filter>Header Files\MyClasses</Filter>
+    </ClInclude>
+    <ClInclude Include="Particle.h">
+      <Filter>Header Files\MyClasses</Filter>
+    </ClInclude>
+    <ClInclude Include="PolyLineEntity.h">
+      <Filter>Header Files\MyClasses</Filter>
+    </ClInclude>
+    <ClInclude Include="Ship.h">
+      <Filter>Header Files\MyClasses</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameTimer.h">
+      <Filter>Header Files\ChiliLessons</Filter>
+    </ClInclude>
+    <ClInclude Include="RectI.h">
+      <Filter>Header Files\ChiliLessons</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
