@@ -24,7 +24,17 @@ int RectI::GetHeight() const {
 	return bottom - top;
 }
 
-bool RectI::ContainsPoint(Vector2<int> point) {
+void RectI::SetWidth(int value)
+{
+	right = left + value;
+}
+
+void RectI::SetHeight(int value)
+{
+	bottom = top + value;
+}
+
+bool RectI::ContainsPoint(Vector2<int> point) const {
 	return left <= point.x && point.x <= right && top <= point.y && point.y <= bottom;
 }
 

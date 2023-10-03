@@ -8,7 +8,9 @@ public:
 	Vector2<int> GetPosition();
 	int GetWidth() const;
 	int GetHeight() const;
-	bool ContainsPoint(Vector2<int> point);
+	void SetWidth(int value);
+	void SetHeight(int value);
+	bool ContainsPoint(Vector2<int> point) const;
 	static RectI GetRectFromCenter(Vector2<int> center, int halfWidth, int halfHeight);
 public:
 	int left;
