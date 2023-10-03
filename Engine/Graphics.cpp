@@ -373,9 +373,12 @@ void Graphics::DrawPolyLineClosed(const std::vector<Vector2<float>>& model, Colo
 }
 
 void Graphics::DrawRect(int x, int y, int width, int height, Color c) {
+	const RectI screenRect = GetScreenRect();
 	for (int py = 0; py < height; py++) {
 		for (int px = 0; px < width; px++) {
-			PutPixel(x + px, y + py, c);
+			if (screenRect.ContainsPoint({ x + px, y + py })) {
+				PutPixel(x + px, y + py, c);
+			}
 		}
 	}
 }
@@ -389,9 +392,12 @@ void Graphics::DrawRect(RectI rect, Color c) {
 }
 
 void Graphics::DrawRect(int x, int y, int width, int height, Color c, float alpha) {
+	const RectI screenRect = GetScreenRect();
 	for (int py = 0; py < height; py++) {
 		for (int px = 0; px < width; px++) {
-			PutPixel(x + px, y + py, c, alpha);
+			if (screenRect.ContainsPoint({ x + px, y + py })) {
+				PutPixel(x + px, y + py, c, alpha);
+			}
 		}
 	}
 }
