@@ -75,6 +75,17 @@ Surface::Surface(const Surface& source)
 	}
 }
 
+Surface::Surface(Surface && source)
+	:
+	width(source.width),
+	height(source.height),
+	pPixels(source.pPixels)
+{
+	source.pPixels = nullptr;
+	source.width = 0;
+	source.height = 0;
+}
+
 Surface& Surface::operator=(const Surface& source) {
 	if (this == &source) {
 		return *this;
@@ -90,6 +101,21 @@ Surface& Surface::operator=(const Surface& source) {
 
 	for (int i = 0; i < totalPixelsCount; i++) {
 		pPixels[i] = source.pPixels[i];
+	}
+	return *this;
+}
+
+Surface & Surface::operator=(Surface && rhs)
+{
+	if (&rhs != this) {
+		width = rhs.width;
+		height = rhs.height;
+		delete[] pPixels;
+		pPixels = rhs.pPixels;
+
+		rhs.pPixels = nullptr;
+		rhs.width = 0;
+		rhs.height = 0;
 	}
 	return *this;
 }
