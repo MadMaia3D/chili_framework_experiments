@@ -6,14 +6,16 @@
 Surface::Surface(int width, int height)
 	:
 	width(width),
-	height(height) {
+	height(height)
+{
 	assert(width > 0);
 	assert(height > 0);
 	const int totalPixelsCount = width * height;
 	pPixels = new Color[totalPixelsCount];
 }
 
-Surface::Surface(std::string file) {
+Surface::Surface(std::string file)
+{
 	std::ifstream input(file, std::ios::binary);
 
 	assert(input);
@@ -49,7 +51,7 @@ Surface::Surface(std::string file) {
 
 	pPixels = new Color[width * height];
 
-	for (int y = startY; y != endY; y+= yIncrement) {
+	for (int y = startY; y != endY; y += yIncrement) {
 		for (int x = 0; x < int(width); x++) {
 			unsigned char b = input.get();
 			unsigned char g = input.get();
@@ -59,7 +61,7 @@ Surface::Surface(std::string file) {
 				input.seekg(1, std::ios_base::cur);
 			}
 		}
-		if(!is32bit){
+		if (!is32bit) {
 			input.seekg(padding, std::ios_base::cur);
 		}
 	}
@@ -68,7 +70,8 @@ Surface::Surface(std::string file) {
 
 Surface::Surface(const Surface& source)
 	:
-	Surface(source.width, source.height) {
+	Surface(source.width, source.height)
+{
 	const int totalPixelsCount = width * height;
 	for (int i = 0; i < totalPixelsCount; i++) {
 		pPixels[i] = source.pPixels[i];
@@ -86,7 +89,8 @@ Surface::Surface(Surface && source)
 	source.height = 0;
 }
 
-Surface& Surface::operator=(const Surface& source) {
+Surface& Surface::operator=(const Surface& source)
+{
 	if (this == &source) {
 		return *this;
 	}
@@ -120,24 +124,28 @@ Surface & Surface::operator=(Surface && rhs)
 	return *this;
 }
 
-Surface::~Surface() {
+Surface::~Surface()
+{
 	delete[] pPixels;
 	pPixels = nullptr;
 }
 
-void Surface::SetPixel(int x, int y, Color c) {
+void Surface::SetPixel(int x, int y, Color c)
+{
 	assert(0 <= x && x < width);
 	assert(0 <= y && y < height);
 	pPixels[y * width + x] = c;
 }
 
-Color Surface::GetPixel(int x, int y) const {
+Color Surface::GetPixel(int x, int y) const
+{
 	assert(0 <= x && x < width);
 	assert(0 <= y && y < height);
 	return pPixels[y * width + x];
 }
 
-void Surface::FillSurface(const Color& c) {
+void Surface::FillSurface(const Color& c)
+{
 	const int totalPixelsCount = width * height;
 
 	for (int i = 0; i < totalPixelsCount; i++) {
@@ -145,14 +153,17 @@ void Surface::FillSurface(const Color& c) {
 	}
 }
 
-int Surface::GetWidth() const {
+int Surface::GetWidth() const
+{
 	return width;
 }
 
-int Surface::GetHeight() const {
+int Surface::GetHeight() const
+{
 	return height;
 }
 
-RectI Surface::GetSurfaceRect() const {
-	return RectI(0,0, width, height);
+RectI Surface::GetSurfaceRect() const
+{
+	return RectI(0, 0, width, height);
 }
